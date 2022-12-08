@@ -15,6 +15,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -23,27 +25,43 @@ import javafx.stage.Stage;
  *
  * @author ntu-user
  */
-public class LogInController implements Initializable {
+public class LogInController {
 
     @FXML
     private TextField txtUsername;
     @FXML
-    private TextField txtPassword;
+    private PasswordField txtPassword;
     @FXML
     private Button btnLogIn;
     @FXML
     private Button btnSignUp;
+    
+    @FXML
+    private Label lblIncorrect;
 
     /**
      * Initializes the controller class.
      */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    
+    public void initialize() {
         // TODO
+        btnLogIn.setDisable(true);
     }    
 
     @FXML
-    private void onClickLogIn(ActionEvent event) {
+    private void onClickLogIn(ActionEvent event) throws IOException {
+        String username = txtUsername.getText();
+        String password = txtPassword.getText();
+        boolean validateUser = Account.validateUser(username, password);
+        if(validateUser){
+            System.out.println("successfully logged in!!");
+            Stage s = (Stage)((Node)event.getSource()).getScene().getWindow();
+            s.close();
+        } else{
+            lblIncorrect.setText("Incorrect Username or Password.");
+            txtUsername.clear();
+            txtPassword.clear();
+        }
     }
 
     @FXML
@@ -51,11 +69,19 @@ public class LogInController implements Initializable {
         Stage stage = new Stage();
         FXMLLoader fxml = new FXMLLoader(getClass().getResource("signUp.fxml"));
         Parent root = fxml.load();
-        Scene scene = new Scene(root, 400,400);
+        Scene scene = new Scene(root);
         
         stage.setScene(scene);
         stage.setTitle("Sign Up");
         stage.show();
+    }
+    
+    @FXML
+    private void onKeyReleased(){
+        String username = txtUsername.getText();
+        String password = txtPassword.getText();
+        boolean isDisabled = (username.isEmpty() || password.isEmpty() || (password.length() <= 9));
+        btnLogIn.setDisable(isDisabled);
     }
     
 }

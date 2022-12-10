@@ -55,13 +55,24 @@ public class LogInController {
         boolean validateUser = Account.validateUser(username, password);
         if(validateUser){
             System.out.println("successfully logged in!!");
-            Stage s = (Stage)((Node)event.getSource()).getScene().getWindow();
-            s.close();
+            //Stage s = (Stage)((Node)event.getSource()).getScene().getWindow();
+            Stage s = new Stage();
+            FXMLLoader fxml = new FXMLLoader(getClass().getResource("screen1.fxml"));
+
+            Parent root = fxml.load();
+            Scene scene = new Scene(root);
+            
+            s.setScene(scene);
+            s.setTitle("File Manager");
+            s.show();
+            //s.close();
+            
         } else{
             lblIncorrect.setText("Incorrect Username or Password.");
             txtUsername.clear();
             txtPassword.clear();
         }
+       
     }
 
     @FXML

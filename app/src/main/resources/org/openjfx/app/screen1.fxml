@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.app.Screen1Controller">
+   <children>
+      <MenuBar prefHeight="29.0" prefWidth="614.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem fx:id="addFile" mnemonicParsing="false" onAction="#addfile" text="Add" />
+                  <MenuItem fx:id="createFile" mnemonicParsing="false" onAction="#createfile" text="Create" />
+                  <MenuItem fx:id="saveFile" mnemonicParsing="false" onAction="#savefile" text="Save" />
+                  <MenuItem fx:id="shareFile" mnemonicParsing="false" onAction="#savefile" text="share" />
+                  <MenuItem fx:id="closeFile" mnemonicParsing="false" onAction="#closefile" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+            <Menu mnemonicParsing="false" text="Settings">
+               <items>
+                  <MenuItem fx:id="myprofile" mnemonicParsing="false" onAction="#profile" text="Profile" />
+                  <MenuItem fx:id="logOut" mnemonicParsing="false" onAction="#logout" text="Logout" />
+               </items>
+            </Menu>
+        </menus>
+      </MenuBar>
+      <SplitPane dividerPositions="0.298" layoutY="29.0" prefHeight="370.0" prefWidth="620.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="368.0" prefWidth="144.0">
+               <children>
+                  <ListView fx:id="myListview" editable="true" layoutX="1.0" prefHeight="368.0" prefWidth="172.0" />
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="368.0" prefWidth="390.0">
+               <children>
+                  <TextArea minHeight="-Infinity" minWidth="-Infinity" prefHeight="368.0" prefWidth="430.0" wrapText="true" />
+               </children>
+            </AnchorPane>
+        </items>
+         <cursor>
+            <Cursor fx:constant="DISAPPEAR" />
+         </cursor>
+      </SplitPane>
+   </children>
+</AnchorPane>

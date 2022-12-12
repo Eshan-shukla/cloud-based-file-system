@@ -4,12 +4,15 @@
  */
 package org.openjfx.app;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
@@ -17,6 +20,7 @@ import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextArea;
 /**
  * FXML Controller class
  *
@@ -24,13 +28,13 @@ import javafx.scene.control.MenuItem;
  */
 
 
-public class Screen1Controller implements Initializable{
+public class Screen1Controller {
 
     @FXML
     private MenuItem closeFile;
 
     @FXML
-    private ListView<String> myListview;
+    private ListView<String> myListView;
 
     @FXML
     private MenuItem shareFile;
@@ -50,7 +54,39 @@ public class Screen1Controller implements Initializable{
     @FXML
     private MenuItem createFile;
     
-    String[] files = {"ABC"};
+    @FXML
+    private TextArea txtArea;
+    
+    String[] files = {};
+    
+    private static String username;
+    
+    private static Stage stageOfTextArea;
+   
+    public void initialize() {
+       this.username = LogInController.getTxtUsername();
+       System.out.println("inside initialize");
+       String dirPath = "/home/ntu-user/NetBeansProjects/files/";
+       String path = dirPath + this.username;
+       try{
+           File dir = new File(path);
+           this.files = dir.list();
+           for(String s : files){
+               System.out.println(s);
+           }
+       } catch(SecurityException ex){
+           System.out.println("error");
+       } catch(NullPointerException ex){
+           System.out.println("which error");
+       }
+       myListView.getItems().addAll(files);
+       
+        
+    }
+
+    public void setUsername(String user) {
+        this.username = user;
+    }
     
     @FXML
     private void addfile(ActionEvent event) {
@@ -58,8 +94,15 @@ public class Screen1Controller implements Initializable{
     }
 
     @FXML
-    private void createfile(ActionEvent event) {
-
+    private void createfile(ActionEvent event) throws IOException {
+        Stage stage = new Stage();
+        FXMLLoader fxml = new FXMLLoader(getClass().getResource("filename.fxml"));
+        Parent root = fxml.load();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setTitle("File name");
+        stage.show();
+        stageOfTextArea = (Stage)txtArea.getScene().getWindow();
     }
 
     @FXML
@@ -84,9 +127,17 @@ public class Screen1Controller implements Initializable{
     }
     
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-       myListview.getItems().addAll(files);
+    
+    
+    
+    public void changeStage() throws IOException{
+        System.out.println("inside changeState");
+        FXMLLoader fxml = new FXMLLoader(getClass().getResource("screen1.fxml"));
+        Parent root = fxml.load();
+        Scene s = new Scene(root);
+        stageOfTextArea.setScene(s);
+        stageOfTextArea.show();
+        System.out.println("passesd");
     }
 
 }

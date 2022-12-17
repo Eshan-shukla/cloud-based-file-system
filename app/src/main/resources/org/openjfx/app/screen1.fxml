@@ -15,15 +15,15 @@
           <Menu mnemonicParsing="false" text="File">
             <items>
               <MenuItem fx:id="addFile" mnemonicParsing="false" onAction="#addfile" text="Add" />
-                  <MenuItem fx:id="createFile" mnemonicParsing="false" onAction="#createfile" text="Create">
+                  <MenuItem fx:id="createFile" mnemonicParsing="false" onAction="#onClickCreateNew" text="Create New">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="N" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
-                  <MenuItem fx:id="saveFile" mnemonicParsing="false" onAction="#savefile" text="Save">
+                  <MenuItem fx:id="saveFile" mnemonicParsing="false" onAction="#onClickSave" text="Save">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
-                  <MenuItem fx:id="shareFile" mnemonicParsing="false" onAction="#savefile" text="share" />
+                  <MenuItem fx:id="shareFile" mnemonicParsing="false" text="share" />
                   <MenuItem fx:id="closeFile" mnemonicParsing="false" onAction="#closefile" text="Close" />
             </items>
           </Menu>
@@ -49,7 +49,7 @@
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="368.0" prefWidth="147.0">
                <children>
-                  <ListView fx:id="myListview" editable="true" layoutX="1.0" prefHeight="368.0" prefWidth="155.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <ListView fx:id="myListView" editable="true" layoutX="1.0" prefHeight="368.0" prefWidth="155.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="368.0" prefWidth="390.0">

@@ -4,11 +4,20 @@
  */
 package org.openjfx.app;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.fxml.FXML;
@@ -62,6 +71,8 @@ public class Screen1Controller {
     private static String username;
     
     private static Stage stageOfTextArea;
+    
+    private String currentFileSelected;
    
     public void initialize() {
        this.username = LogInController.getTxtUsername();
@@ -80,6 +91,37 @@ public class Screen1Controller {
            System.out.println("which error");
        }
        myListView.getItems().addAll(files);
+       myListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>(){
+           @Override
+           public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+              currentFileSelected = myListView.getSelectionModel().getSelectedItem();
+              //go to this file
+              String path = "/home/ntu-user/NetBeansProjects/files/" + username + "/";
+              String fullPath = path + currentFileSelected;
+              //go to this path and get the content of this file
+              try{
+                  File file = new File(fullPath);
+                  FileReader fr = new FileReader(file);
+                  BufferedReader br = new BufferedReader(fr);
+                  String line = null;
+                  String content = "";
+                  while((line = br.readLine()) != null){
+                      content = content + line + "\n";
+                      
+                  }
+                  txtArea.setText(content);
+                  fr.close();
+                  br.close();
+              } catch(FileNotFoundException ex){
+                  System.out.println("error");
+              } catch(NullPointerException ex){
+                  System.out.println("error");
+              } catch (IOException ex) { 
+                   System.out.println("error");
+               } 
+           }
+        
+    });
        
         
     }
@@ -94,7 +136,7 @@ public class Screen1Controller {
     }
 
     @FXML
-    private void createfile(ActionEvent event) throws IOException {
+    private void onClickCreateNew(ActionEvent event) throws IOException {
         Stage stage = new Stage();
         FXMLLoader fxml = new FXMLLoader(getClass().getResource("filename.fxml"));
         Parent root = fxml.load();
@@ -106,8 +148,28 @@ public class Screen1Controller {
     }
 
     @FXML
-    private void savefile(ActionEvent event) {
-
+    private void onClickSave(ActionEvent event) {
+        String content = txtArea.getText();
+        String fileName = myListView.getSelectionModel().getSelectedItem();
+        System.out.println(fileName);
+        String path = "/home/ntu-user/NetBeansProjects/files/" + username + "/";
+        String fullPath = path + fileName;
+        try{
+            File file = new File(fullPath);
+            FileWriter fw = new FileWriter(file);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(content);
+            bw.flush();
+            fw.close();
+            bw.close();
+        }catch(FileNotFoundException ex){
+            System.out.println("this error");
+        }catch(NullPointerException ex){
+            System.out.println("null error");
+        } catch (IOException ex) {
+            System.err.println(ex);
+            System.out.println(" io error");
+        }
     }
 
 

@@ -4,6 +4,7 @@
  */
 package org.openjfx.app;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -31,10 +32,8 @@ public class SignUpController {
     private PasswordField txtConfirmPassword;
     @FXML
     private Button btnSignUp;
-    
     @FXML
     private Label lblWrongPassword;
-    
     @FXML
     private Label lblIncorrectPassword;
 
@@ -50,24 +49,28 @@ public class SignUpController {
     @FXML
     private void onClickSignUp(ActionEvent event) {
         String username = txtUsername.getText();
-        String password = txtConfirmPassword.getText();
-        String cpassword = txtPassword.getText();
-        boolean check = matchPasswords(password, cpassword);
-        boolean correctPassword = checkPasswordString(cpassword);
-        if(!check){
-            lblWrongPassword.setText("Password and Confirm password do not match.");
-        } else{
-            if(correctPassword){
-                Account.createNewUser(username, password);
-                Stage s = (Stage)((Node)event.getSource()).getScene().getWindow();
-                s.close();
+        String path = "/home/ntu-user/NetBeansProjects/files/";
+        String filename = username;
+        FileOperation fo = new FileOperation();
+        if(fo.createDirectory(path, filename)){
+            String password = txtConfirmPassword.getText();
+            String cpassword = txtPassword.getText();
+            boolean check = matchPasswords(password, cpassword);
+            boolean correctPassword = checkPasswordString(cpassword);
+            if(!check){
+                 lblWrongPassword.setText("Password and Confirm password do not match.");
             } else{
-                lblIncorrectPassword.setText("Password must contain atleast a number and a special character.");
+                if(correctPassword){
+                    Account.createNewUser(username, password);
+                    Stage s = (Stage)((Node)event.getSource()).getScene().getWindow();
+                    s.close();
+                } else{
+                    lblIncorrectPassword.setText("Password must contain atleast a number and a special character.");
+                }       
             }
-                
-            
-        }  
-        
+        } else{
+            lblWrongPassword.setText("Username already exists.");
+        }
     }
     
     @FXML

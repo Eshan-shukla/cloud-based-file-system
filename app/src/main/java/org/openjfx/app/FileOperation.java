@@ -60,45 +60,4 @@ public class FileOperation {
     
 }
     
-//    /**
-//     * @brief This function creates a file in the directory if it does not exists.
-//     * @param filename
-//     * @return returns true if new file is added, otherwise false.
-//     */
-//    public boolean createFile(String filename){
-//        String directoryPath = FILEPATH + this.username;
-//        //create a directory named this.username inside files directory
-//        try{
-//            File dir = new File(directoryPath);
-//            if(dir.mkdir()){
-//                System.out.println("created!!!!!!");
-//            }
-//        }catch(NullPointerException ex){
-//            System.out.println("error");
-//        }catch(SecurityException ex){
-//            System.out.println("error");
-//        }
-//        
-//        //Now, put the file inside the above directory
-//        String fullPath = FILEPATH + this.username + "/" + filename;
-//        try{
-//            File file = new File(fullPath);
-//            if(file.exists()){
-//                return false;
-//            }
-//            if(file.createNewFile()){
-//                return true;
-//            }
-//            
-//        }catch(NullPointerException ex){
-//            System.out.println("error");
-//        }catch(SecurityException ex){
-//            System.out.println("error");
-//        }catch(IOException ex){
-//            System.out.println("error");
-//        }
-//        
-//        return true;
-//    }
-//    
-//}
+// 

@@ -4,7 +4,12 @@
  */
 package org.openjfx.app;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
@@ -55,6 +60,8 @@ public class Screen1Controller {
     String[] fileName = {};
     private static String username;
     private static Stage stageOfTextArea;
+    
+    private String currentFileSelected;
    
     public void initialize() {
        this.username = LogInController.getTxtUsername();
@@ -139,7 +146,6 @@ public class Screen1Controller {
 
     @FXML
     private void onClickSave(ActionEvent event) {
-
     }
 
 

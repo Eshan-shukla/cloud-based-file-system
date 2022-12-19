@@ -14,10 +14,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import java.util.Vector;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.fxml.FXML;
@@ -30,6 +27,8 @@ import javafx.stage.Stage;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
 /**
  * FXML Controller class
  *
@@ -38,38 +37,28 @@ import javafx.scene.control.TextArea;
 
 
 public class Screen1Controller {
-
     @FXML
-    private MenuItem closeFile;
-
-    @FXML
-    private ListView<String> myListView;
-
-    @FXML
-    private MenuItem shareFile;
-
-    @FXML
-    private MenuItem saveFile;
-
+    private TreeView<String> myTreeView;
     @FXML
     private MenuItem myprofile;
-
     @FXML
     private MenuItem logOut;
-
     @FXML
-    private MenuItem addFile;
-
+    private MenuItem upload;
     @FXML
     private MenuItem createFile;
-    
+    @FXML
+    private MenuItem createDirectory;
+    @FXML
+    private MenuItem save;
+    @FXML
+    private MenuItem share;
+    @FXML
+    private MenuItem close;
     @FXML
     private TextArea txtArea;
-    
-    String[] files = {};
-    
+    String[] fileName = {};
     private static String username;
-    
     private static Stage stageOfTextArea;
     
     private String currentFileSelected;
@@ -81,49 +70,52 @@ public class Screen1Controller {
        String path = dirPath + this.username;
        try{
            File dir = new File(path);
-           this.files = dir.list();
-           for(String s : files){
-               System.out.println(s);
+           this.fileName = dir.list();
+           TreeItem<String> root = new TreeItem<>("Your Folders");
+           Vector<TreeItem<String>> branches = createView(fileName, path + "/");
+           int len = branches.size();
+           for(int i = 0; i < len; ++i){
+               root.getChildren().add(branches.get(i));
            }
+         myTreeView.setRoot(root);
        } catch(SecurityException ex){
            System.out.println("error");
        } catch(NullPointerException ex){
            System.out.println("which error");
        }
-       myListView.getItems().addAll(files);
-       myListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>(){
-           @Override
-           public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-              currentFileSelected = myListView.getSelectionModel().getSelectedItem();
-              //go to this file
-              String path = "/home/ntu-user/NetBeansProjects/files/" + username + "/";
-              String fullPath = path + currentFileSelected;
-              //go to this path and get the content of this file
-              try{
-                  File file = new File(fullPath);
-                  FileReader fr = new FileReader(file);
-                  BufferedReader br = new BufferedReader(fr);
-                  String line = null;
-                  String content = "";
-                  while((line = br.readLine()) != null){
-                      content = content + line + "\n";
-                      
-                  }
-                  txtArea.setText(content);
-                  fr.close();
-                  br.close();
-              } catch(FileNotFoundException ex){
-                  System.out.println("error");
-              } catch(NullPointerException ex){
-                  System.out.println("error");
-              } catch (IOException ex) { 
-                   System.out.println("error");
-               } 
-           }
-        
-    });
        
         
+    }
+    
+    private Vector<TreeItem<String>> createView(String[] fileName, String rootPath){
+        Vector<TreeItem<String>> branches = new Vector<TreeItem<String>>();
+        String tempPath = rootPath;
+        for(String s : fileName){
+            tempPath = rootPath + s;
+            try{
+                File f = new File(tempPath);
+                if(f.isDirectory()){
+                    TreeItem<String> root = new TreeItem<String>(s);
+                    fileName = f.list();
+                    Vector<TreeItem<String>> tempBranch = createView(fileName, tempPath + "/");
+                    int len = tempBranch.size();
+                    for(int i = 0; i < len; ++i){
+                        root.getChildren().add(tempBranch.get(i));
+                    }
+                    branches.add(root);
+                }else{
+                    TreeItem<String> branch = new TreeItem<String>(s);
+                    branches.add(branch);
+                }
+                
+            }catch(SecurityException ex){
+                System.out.println("error");
+            } catch(NullPointerException ex){
+                System.out.println("which error");
+            }
+            
+        }
+        return branches;
     }
 
     public void setUsername(String user) {
@@ -131,12 +123,12 @@ public class Screen1Controller {
     }
     
     @FXML
-    private void addfile(ActionEvent event) {
+    private void onClickUpload(ActionEvent event) {
 
     }
 
     @FXML
-    private void onClickCreateNew(ActionEvent event) throws IOException {
+    private void onClickCreateFile(ActionEvent event) throws IOException {
         Stage stage = new Stage();
         FXMLLoader fxml = new FXMLLoader(getClass().getResource("filename.fxml"));
         Parent root = fxml.load();
@@ -146,36 +138,25 @@ public class Screen1Controller {
         stage.show();
         stageOfTextArea = (Stage)txtArea.getScene().getWindow();
     }
+    
+    @FXML
+    private void onClickCreateDirectory(ActionEvent event){
+        
+    }
 
     @FXML
     private void onClickSave(ActionEvent event) {
-        String content = txtArea.getText();
-        String fileName = myListView.getSelectionModel().getSelectedItem();
-        System.out.println(fileName);
-        String path = "/home/ntu-user/NetBeansProjects/files/" + username + "/";
-        String fullPath = path + fileName;
-        try{
-            File file = new File(fullPath);
-            FileWriter fw = new FileWriter(file);
-            BufferedWriter bw = new BufferedWriter(fw);
-            bw.write(content);
-            bw.flush();
-            fw.close();
-            bw.close();
-        }catch(FileNotFoundException ex){
-            System.out.println("this error");
-        }catch(NullPointerException ex){
-            System.out.println("null error");
-        } catch (IOException ex) {
-            System.err.println(ex);
-            System.out.println(" io error");
-        }
     }
 
 
     @FXML
-    private void closefile(ActionEvent event) {
+    private void onClickShare(ActionEvent event) {
 
+    }
+    
+    @FXML
+    private void onClickClose(ActionEvent event){
+        
     }
 
     @FXML

@@ -21,6 +21,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
@@ -38,6 +39,24 @@ import javafx.scene.control.TreeView;
 
 public class Screen1Controller {
     @FXML
+    private ContextMenu contextMenu;
+    @FXML
+    private MenuItem open;
+    @FXML
+    private MenuItem createFileC;
+    @FXML
+    private MenuItem createDir;
+    @FXML
+    private MenuItem copy;
+    @FXML
+    private MenuItem move;
+    @FXML
+    private MenuItem share;
+    @FXML
+    private MenuItem delete;
+    @FXML
+    private MenuItem rename;
+    @FXML
     private TreeView<String> myTreeView;
     @FXML
     private MenuItem myprofile;
@@ -51,8 +70,6 @@ public class Screen1Controller {
     private MenuItem createDirectory;
     @FXML
     private MenuItem save;
-    @FXML
-    private MenuItem share;
     @FXML
     private MenuItem close;
     @FXML
@@ -148,11 +165,6 @@ public class Screen1Controller {
     private void onClickSave(ActionEvent event) {
     }
 
-
-    @FXML
-    private void onClickShare(ActionEvent event) {
-
-    }
     
     @FXML
     private void onClickClose(ActionEvent event){
@@ -166,12 +178,48 @@ public class Screen1Controller {
 
     @FXML
     private void logout(ActionEvent event) {
-
+        
     }
     
-
+    @FXML
+    private void onClickContextOpen(ActionEvent event){
+        
+    }
     
+    @FXML
+    private void onClickContextCreateFile(ActionEvent event){
+        
+    }
     
+    @FXML
+    private void onClickContextCreateDir(ActionEvent event){
+        
+    }
+    
+    @FXML
+    private void onClickContextCopy(ActionEvent event){
+        
+    }
+    
+    @FXML
+    private void onClickContextMove(ActionEvent event){
+        
+    }
+    
+    @FXML
+    private void onClickContextShare(ActionEvent event){
+        
+    }
+    
+    @FXML
+    private void onClickContextDelete(ActionEvent event){
+        
+    }
+    
+    @FXML
+    private void onClickContextRename(ActionEvent event){
+        
+    }
     
     public void changeStage() throws IOException{
         System.out.println("inside changeState");

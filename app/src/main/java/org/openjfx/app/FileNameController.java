@@ -31,36 +31,42 @@ public class FileNameController {
     
     @FXML
     private Label lblError;
-    
+    private String path;
  
     
-    public void initialize(Stage stage){
+    public void initialize(){
         
     }
+    public void setPath(String path){
+        this.path = path;
+    }
+    
     
     @FXML
     private void onClickCreate(ActionEvent event){
+        String filename = txtFileName.getText();
         String username = LogInController.getTxtUsername();
         FileOperation fo = new FileOperation();
-        fo.setUsername(username);
-        boolean check = fo.createFile(txtFileName.getText());
+        //fo.setUsername(this.path, filename);
+        boolean check = fo.createFile(this.path, filename);
         if(!check){
             //System.out.println("file already exists");
             lblError.setText("File of this name already exists.");
         } else{
             Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
             stage.close();
-        }
-        try{
-            FXMLLoader fxml = new FXMLLoader(getClass().getResource("screen1.fxml"));
-            Parent root = fxml.load();
-            Screen1Controller sc = fxml.getController();
+            try{
+                FXMLLoader fxml = new FXMLLoader(getClass().getResource("screen1.fxml"));
+                Parent root = fxml.load();
+                Screen1Controller sc = fxml.getController();
             //sc.initialize(username);
-            sc.changeStage();
-        }catch(IOException ex){
-            System.out.println("error");
+                sc.changeStage();
+            }catch(IOException ex){
+                System.out.println("error");
             
+            }
         }
+        
         
         
     }

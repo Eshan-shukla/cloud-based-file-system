@@ -49,21 +49,7 @@
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="368.0" prefWidth="147.0">
                <children>
-                  <TreeView fx:id="myTreeView" prefHeight="368.0" prefWidth="155.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <contextMenu>
-                        <ContextMenu fx:id="contextMenu">
-                          <items>
-                            <MenuItem fx:id="open" mnemonicParsing="false" onAction="#onClickContextOpen" text="Open" />
-                              <MenuItem fx:id="createFile" mnemonicParsing="false" onAction="#onClickContextCreateFile" text="Create File" />
-                              <MenuItem fx:id="createDir" mnemonicParsing="false" onAction="#onClickContextCreateDir" text="Create Directory" />
-                              <MenuItem fx:id="copy" mnemonicParsing="false" onAction="#onClickContextCopy" text="Copy" />
-                              <MenuItem fx:id="move" mnemonicParsing="false" onAction="#onClickContextMove" text="Move" />
-                              <MenuItem fx:id="share" mnemonicParsing="false" onAction="#onClickContextShare" text="Share" />
-                              <MenuItem fx:id="rename" mnemonicParsing="false" onAction="#onClickContextRename" text="Rename" />
-                              <MenuItem fx:id="delete" mnemonicParsing="false" onAction="#onClickContextDelete" text="Delete" />
-                          </items>
-                        </ContextMenu>
-                     </contextMenu></TreeView>
+                  <TreeView fx:id="myTreeView" prefHeight="368.0" prefWidth="155.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
 
                </children>
             </AnchorPane>

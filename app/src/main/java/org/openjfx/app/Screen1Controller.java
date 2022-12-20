@@ -15,6 +15,8 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.util.ResourceBundle;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.fxml.FXML;
@@ -163,6 +165,22 @@ public class Screen1Controller {
 
     @FXML
     private void onClickSave(ActionEvent event) {
+        TreeItem<String> item = myTreeView.getSelectionModel().getSelectedItem();
+        String path = "/home/ntu-user/NetBeansProjects/files/" + getPath(item);
+        String content = txtArea.getText();
+        try{
+            File file = new File(path);
+            if(file.isFile()){
+                FileWriter fw = new FileWriter(file);
+                BufferedWriter bw = new BufferedWriter(fw);
+                bw.write(content);
+                bw.flush();
+                bw.close();
+                fw.close();
+            }
+        } catch (IOException ex) {
+            System.out.println("error");
+        }
     }
 
     
@@ -184,12 +202,48 @@ public class Screen1Controller {
     @FXML
     private void onClickContextOpen(ActionEvent event){
         
+        
+    }
+    
+    private String getPath(TreeItem<String> file){
+        String filename = file.getValue();
+        if(filename.equals("Your Folders")){
+            return LogInController.getTxtUsername();
+        } else {
+            TreeItem<String> item = file.getParent();
+            String path = getPath(item) + "/" + file.getValue();
+            return path;
+        }
+        
     }
     
     @FXML
-    private void onClickContextCreateFile(ActionEvent event){
+    private void onClickContextCreateFile(ActionEvent event) throws IOException{
+        TreeItem<String> item = myTreeView.getSelectionModel().getSelectedItem();
+        String username = LogInController.getTxtUsername();
+        String path = "/home/ntu-user/NetBeansProjects/files/" + getPath(item);
+        //System.out.println(path);
+        try{
+            File dir = new File(path);
+            if(dir.isDirectory()){
+                //System.out.println("inside isdirectory");
+                Stage stage = new Stage();
+                FXMLLoader fxml = new FXMLLoader(getClass().getResource("filename.fxml"));
+                Parent root = fxml.load();
+                Scene scene = new Scene(root);
+                FileNameController fc = fxml.getController();
+                fc.setPath(path);
+                stage.setScene(scene);
+                stage.setTitle("File Name");
+                stage.show();
+                stageOfTextArea = (Stage)txtArea.getScene().getWindow();
+            }
+        }catch(IOException ex){
+            System.out.println("error");
+        }
         
     }
+    
     
     @FXML
     private void onClickContextCreateDir(ActionEvent event){

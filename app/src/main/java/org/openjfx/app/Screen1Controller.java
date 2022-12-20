@@ -201,8 +201,27 @@ public class Screen1Controller {
     
     @FXML
     private void onClickContextOpen(ActionEvent event){
-        
-        
+        TreeItem<String> item = myTreeView.getSelectionModel().getSelectedItem();
+        String path = "/home/ntu-user/NetBeansProjects/files/" + getPath(item);
+        try{
+            File file = new File(path);
+            if(file.isFile()){
+                FileReader fr = new FileReader(file);
+                BufferedReader br = new BufferedReader(fr);
+                String line = null;
+                String content = "";
+                while((line = br.readLine()) != null){
+                    content = content + line + "\n";
+                }
+                txtArea.setText(content);
+                br.close();
+                fr.close();
+            }
+        } catch (IOException ex) {
+            System.out.println("error");
+        } catch(NullPointerException ex){
+            System.out.println("error");
+        }
     }
     
     private String getPath(TreeItem<String> file){
@@ -222,11 +241,9 @@ public class Screen1Controller {
         TreeItem<String> item = myTreeView.getSelectionModel().getSelectedItem();
         String username = LogInController.getTxtUsername();
         String path = "/home/ntu-user/NetBeansProjects/files/" + getPath(item);
-        //System.out.println(path);
         try{
             File dir = new File(path);
             if(dir.isDirectory()){
-                //System.out.println("inside isdirectory");
                 Stage stage = new Stage();
                 FXMLLoader fxml = new FXMLLoader(getClass().getResource("filename.fxml"));
                 Parent root = fxml.load();

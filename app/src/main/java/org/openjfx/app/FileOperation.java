@@ -4,7 +4,9 @@
  */
 package org.openjfx.app;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -57,6 +59,35 @@ public class FileOperation {
         }
         return true;
     }
+    
+    //just share the file
+    public void shareFile(String filename, String username){
+        String path = "/home/ntu-user/NetBeansProjects/files/" + username + "/" + filename;
+        File file = new File(path);
+        try {
+            if(file.createNewFile()){}
+            //handle file with same name
+        } catch (IOException ex) {
+            System.out.println("error");
+        }
+        
+    }
+    
+    public void writeContent(String line, String path){
+        //write into the path
+        File file = new File(path);
+        try{
+            FileWriter fw = new FileWriter(file);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(line+"\n");
+            bw.flush();
+            bw.close();
+            fw.close();
+        }catch(IOException ex){
+            System.out.println("error");
+        }
+    }
+    
     
 }
     

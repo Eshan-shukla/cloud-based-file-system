@@ -4,11 +4,11 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="179.0" prefWidth="527.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.app.ShareFileController">
    <children>
       <Label layoutX="37.0" layoutY="52.0" prefHeight="21.0" prefWidth="136.0" text="Enter Username" />
       <TextField fx:id="txtUsername" layoutX="198.0" layoutY="50.0" prefHeight="25.0" prefWidth="204.0" />
       <Button layoutX="420.0" layoutY="140.0" mnemonicParsing="false" onAction="#onClickShare" prefHeight="25.0" prefWidth="79.0" text="Share" />
+      <Label fx:id="lbl" layoutX="124.0" layoutY="98.0" prefHeight="21.0" prefWidth="283.0" textFill="#f80000" />
    </children>
 </AnchorPane>

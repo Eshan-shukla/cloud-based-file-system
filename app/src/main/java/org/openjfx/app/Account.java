@@ -4,6 +4,7 @@
  */
 package org.openjfx.app;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -25,6 +26,16 @@ public class Account {
     
     private static final String FILENAME = "jdbc:sqlite:/home/ntu-user/NetBeansProjects/Course-Work/app/Account.db";
     private static final String TABLENAME = "Users";
+    
+    public static boolean checkUser(String username){
+        String path = "/home/ntu-user/NetBeansProjects/files/" + username;
+        File dir = new File(path);
+        if(dir.exists()){
+            return true;
+        }else{
+            return false;
+        }
+    }
     
     /**
      * @brief Add username and password to the database.

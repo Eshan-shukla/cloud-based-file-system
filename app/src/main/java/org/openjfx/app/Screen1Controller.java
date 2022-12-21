@@ -148,10 +148,14 @@ public class Screen1Controller {
 
     @FXML
     private void onClickCreateFile(ActionEvent event) throws IOException {
+        String username = LogInController.getTxtUsername();
+        String path = "/home/ntu-user/NetBeansProjects/files/" + username;
         Stage stage = new Stage();
         FXMLLoader fxml = new FXMLLoader(getClass().getResource("filename.fxml"));
         Parent root = fxml.load();
         Scene scene = new Scene(root);
+        FileNameController fc = fxml.getController();
+        fc.setPath(path);
         stage.setScene(scene);
         stage.setTitle("File name");
         stage.show();
@@ -160,7 +164,22 @@ public class Screen1Controller {
     
     @FXML
     private void onClickCreateDirectory(ActionEvent event){
-        
+        try {
+            String username = LogInController.getTxtUsername();
+            String path = "/home/ntu-user/NetBeansProjects/files/" + username;
+            Stage stage = new Stage();
+            FXMLLoader fxml = new FXMLLoader(getClass().getResource("foldername.fxml"));
+            Parent root = fxml.load();
+            Scene scene = new Scene(root);
+            FolderNameController fc = fxml.getController();
+            fc.setPath(path);
+            stage.setScene(scene);
+            stage.setTitle("File name");
+            stage.show();
+            stageOfTextArea = (Stage)txtArea.getScene().getWindow();
+        } catch (IOException ex) {
+            System.out.println("error");
+        }
     }
 
     @FXML
@@ -264,7 +283,26 @@ public class Screen1Controller {
     
     @FXML
     private void onClickContextCreateDir(ActionEvent event){
-        
+        TreeItem<String> item = myTreeView.getSelectionModel().getSelectedItem();
+        String username = LogInController.getTxtUsername();
+        String path = "/home/ntu-user/NetBeansProjects/files/" + getPath(item);
+        try{
+            File dir = new File(path);
+            if(dir.isDirectory()){
+                Stage stage = new Stage();
+                FXMLLoader fxml = new FXMLLoader(getClass().getResource("foldername.fxml"));
+                Parent root = fxml.load();
+                Scene scene = new Scene(root);
+                FolderNameController fc = fxml.getController();
+                fc.setPath(path);
+                stage.setScene(scene);
+                stage.setTitle("File Name");
+                stage.show();
+                stageOfTextArea = (Stage)txtArea.getScene().getWindow();
+            }
+        }catch(IOException ex){
+            System.out.println("error");
+        }
     }
     
     @FXML
@@ -279,6 +317,31 @@ public class Screen1Controller {
     
     @FXML
     private void onClickContextShare(ActionEvent event){
+        TreeItem<String> item = myTreeView.getSelectionModel().getSelectedItem();
+        String path = "/home/ntu-user/NetBeansProjects/files/" + getPath(item);
+        String filename = item.getValue();
+        File file = new File(path);
+        if(file.isFile()){
+            Stage stage = new Stage();
+            FXMLLoader fxml = new FXMLLoader(getClass().getResource("sharefile.fxml"));
+            Parent root;
+            try {
+                root = fxml.load();
+                Scene scene = new Scene(root);
+                ShareFileController sc = fxml.getController();
+                sc.setFileToBeShared(filename);
+                sc.setPath(path);
+                stage.setScene(scene);
+                stage.setTitle("Username");
+                stage.show();
+                stageOfTextArea = (Stage)txtArea.getScene().getWindow();
+            } catch (IOException ex) {
+                System.out.println("error");
+            }
+        }
+        
+        
+        
         
     }
     

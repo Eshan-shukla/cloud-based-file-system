@@ -51,26 +51,27 @@ public class SignUpController {
         String username = txtUsername.getText();
         String path = "/home/ntu-user/NetBeansProjects/files/";
         String filename = username;
-        FileOperation fo = new FileOperation();
-        if(fo.createDirectory(path, filename)){
-            String password = txtConfirmPassword.getText();
-            String cpassword = txtPassword.getText();
-            boolean check = matchPasswords(password, cpassword);
-            boolean correctPassword = checkPasswordString(cpassword);
-            if(!check){
-                 lblWrongPassword.setText("Password and Confirm password do not match.");
-            } else{
-                if(correctPassword){
-                    Account.createNewUser(username, password);
-                    Stage s = (Stage)((Node)event.getSource()).getScene().getWindow();
-                    s.close();
-                } else{
-                    lblIncorrectPassword.setText("Password must contain atleast a number and a special character.");
-                }       
-            }
+        String password = txtConfirmPassword.getText();
+        String cpassword = txtPassword.getText();
+        boolean check = matchPasswords(password, cpassword);
+        boolean correctPassword = checkPasswordString(cpassword);
+        if(!check){
+            lblWrongPassword.setText("Password and Confirm password do not match.");
         } else{
-            lblWrongPassword.setText("Username already exists.");
-        }
+            if(correctPassword){
+                Account.createNewUser(username, password);
+                FileOperation fo = new FileOperation();
+                if(fo.createDirectory(path, filename)){
+                    
+                }else{
+                    lblWrongPassword.setText("Username already exists.");
+                }
+                Stage s = (Stage)((Node)event.getSource()).getScene().getWindow();
+                s.close();
+            } else{
+                lblIncorrectPassword.setText("Password must contain atleast a number and a special character.");
+            }       
+        }         
     }
     
     @FXML

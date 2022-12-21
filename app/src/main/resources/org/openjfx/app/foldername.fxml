@@ -10,6 +10,5 @@
       <TextField fx:id="txtFolderName" layoutX="188.0" layoutY="73.0" prefHeight="25.0" prefWidth="208.0" />
       <Button layoutX="385.0" layoutY="153.0" mnemonicParsing="false" onAction="#onClickCreate" prefHeight="25.0" prefWidth="73.0" text="Create" />
       <Button layoutX="305.0" layoutY="153.0" mnemonicParsing="false" onAction="#onClickCancel" prefHeight="25.0" prefWidth="73.0" text="Cancel" />
-      <Label fx:id="lbl" layoutX="102.0" layoutY="113.0" prefHeight="25.0" prefWidth="222.0" textFill="RED" />
    </children>
 </AnchorPane>

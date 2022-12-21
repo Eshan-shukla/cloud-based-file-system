@@ -13,7 +13,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -49,27 +51,36 @@ public class ShareFileController {
             p = "/home/ntu-user/NetBeansProjects/files/" + username + "/";
             fo.shareFile(filename, username);
             File file = new File(this.path);
-        try{
-            FileReader fr = new FileReader(path);
-            BufferedReader br = new BufferedReader(fr);
-            String line = null;
-            String content = "";
-            while((line = br.readLine()) != null){
-                content = content + line + "\n";
-            }
-            fo.writeContent(content, p+filename);
-            fr.close();
-            br.close();
+            try{
+                FileReader fr = new FileReader(path);
+                BufferedReader br = new BufferedReader(fr);
+                String line = null;
+                String content = "";
+                while((line = br.readLine()) != null){
+                    content = content + line + "\n";
+                }
+                fo.writeContent(content, p+filename);
+                fr.close();
+                br.close();
                     
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(ShareFileController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(ShareFileController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        Stage s = (Stage)((Node)event.getSource()).getScene().getWindow();
-        s.close();
+            } catch (FileNotFoundException ex) {
+                System.out.println("error");
+            } catch (IOException ex) {
+                System.out.println("error");
+            }
+//            try{
+//                FXMLLoader fxml = new FXMLLoader(getClass().getResource("screen1.fxml"));
+//                Parent root = fxml.load();
+//                Screen1Controller sc = fxml.getController();
+//                sc.changeStage();
+//            }catch(IOException ex){
+//                System.out.println("error");
+//            
+//            }
+            Stage s = (Stage)((Node)event.getSource()).getScene().getWindow();
+            s.close();
+        
         } else{
-            //label user does not exist
             lbl.setText("Username does not exist");
         }
         

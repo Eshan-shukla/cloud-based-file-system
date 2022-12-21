@@ -88,6 +88,17 @@ public class FileOperation {
         }
     }
     
+    public void deleteFile(String path){
+        try{
+            File file = new File(path);
+            if(file.delete()){}
+            else{
+                System.out.println("error");
+            }
+        }catch(NullPointerException ex){
+            System.out.println("error");
+        }
+    }
     
 }
     

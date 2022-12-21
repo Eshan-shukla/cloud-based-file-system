@@ -251,8 +251,7 @@ public class Screen1Controller {
             TreeItem<String> item = file.getParent();
             String path = getPath(item) + "/" + file.getValue();
             return path;
-        }
-        
+        }       
     }
     
     @FXML
@@ -307,7 +306,7 @@ public class Screen1Controller {
     
     @FXML
     private void onClickContextCopy(ActionEvent event){
-        
+      
     }
     
     @FXML
@@ -340,14 +339,40 @@ public class Screen1Controller {
             }
         }
         
-        
-        
-        
+    }
+    
+    private void deleteDirectory(String path){
+        FileOperation fo = new FileOperation();
+        File dir = new File(path);
+        if(dir.isDirectory()){
+            String[] files = dir.list();
+            for(String s : files){
+                String tempPath = "";
+                tempPath = path + "/" + s;
+                deleteDirectory(tempPath);
+            }
+            fo.deleteFile(path);
+        }else{
+            
+            fo.deleteFile(path);
+        }
+        return;
     }
     
     @FXML
     private void onClickContextDelete(ActionEvent event){
-        
+        TreeItem<String> item = myTreeView.getSelectionModel().getSelectedItem();
+        String path = "/home/ntu-user/NetBeansProjects/files/" + getPath(item);
+        deleteDirectory(path);
+        try {
+            stageOfTextArea = (Stage)txtArea.getScene().getWindow();
+            FXMLLoader fxml = new FXMLLoader(getClass().getResource("screen1.fxml"));
+            Parent root = fxml.load();
+            Screen1Controller sc = fxml.getController();
+            sc.changeStage();      
+        }catch (IOException ex) {
+            System.out.println("errror");
+        }          
     }
     
     @FXML
@@ -356,13 +381,11 @@ public class Screen1Controller {
     }
     
     public void changeStage() throws IOException{
-        System.out.println("inside changeState");
         FXMLLoader fxml = new FXMLLoader(getClass().getResource("screen1.fxml"));
         Parent root = fxml.load();
         Scene s = new Scene(root);
         stageOfTextArea.setScene(s);
         stageOfTextArea.show();
-        System.out.println("passesd");
     }
 
 }

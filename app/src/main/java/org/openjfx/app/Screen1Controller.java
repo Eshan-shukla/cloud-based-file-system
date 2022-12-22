@@ -84,7 +84,6 @@ public class Screen1Controller {
    
     public void initialize() {
        this.username = LogInController.getTxtUsername();
-       System.out.println("inside initialize");
        String dirPath = "/home/ntu-user/NetBeansProjects/files/";
        String path = dirPath + this.username;
        try{
@@ -101,9 +100,7 @@ public class Screen1Controller {
            System.out.println("error");
        } catch(NullPointerException ex){
            System.out.println("which error");
-       }
-       
-        
+       }            
     }
     
     private Vector<TreeItem<String>> createView(String[] fileName, String rootPath){

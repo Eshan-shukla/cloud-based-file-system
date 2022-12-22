@@ -58,12 +58,12 @@ public class LogInController {
         s = txtUsername.getText();
         String username = txtUsername.getText();
         String password = txtPassword.getText();
-        boolean validateUser = Account.validateUser(username, password);
+        Account a = new Account();
+        boolean validateUser = a.validateUser(username, password);
         if(validateUser){
             System.out.println("successfully logged in!!");
             Stage s = new Stage();
             FXMLLoader fxml = new FXMLLoader(getClass().getResource("screen1.fxml"));
-
             Parent root = fxml.load();
             Scene scene = new Scene(root);
             s.setScene(scene);

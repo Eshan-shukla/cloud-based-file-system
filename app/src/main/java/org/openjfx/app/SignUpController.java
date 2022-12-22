@@ -59,7 +59,8 @@ public class SignUpController {
             lblWrongPassword.setText("Password and Confirm password do not match.");
         } else{
             if(correctPassword){
-                Account.createNewUser(username, password);
+                Account a = new Account();
+                a.createNewUser(username, password);
                 FileOperation fo = new FileOperation();
                 if(fo.createDirectory(path, filename)){
                     

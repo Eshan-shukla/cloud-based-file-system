@@ -22,35 +22,29 @@ import javafx.stage.Stage;
 public class FileNameController {
     @FXML
     private TextField txtFileName;
-    
     @FXML
     private Button btnCancel;
-    
     @FXML
-    private Button btnCreate;
-    
+    private Button btnCreate; 
     @FXML
     private Label lblError;
     private String path;
  
-    
     public void initialize(){
         
     }
+    
     public void setPath(String path){
         this.path = path;
     }
-    
-    
+     
     @FXML
     private void onClickCreate(ActionEvent event){
         String filename = txtFileName.getText();
         String username = LogInController.getTxtUsername();
         FileOperation fo = new FileOperation();
-        //fo.setUsername(this.path, filename);
         boolean check = fo.createFile(this.path, filename);
         if(!check){
-            //System.out.println("file already exists");
             lblError.setText("File of this name already exists.");
         } else{
             Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -59,18 +53,13 @@ public class FileNameController {
                 FXMLLoader fxml = new FXMLLoader(getClass().getResource("screen1.fxml"));
                 Parent root = fxml.load();
                 Screen1Controller sc = fxml.getController();
-            //sc.initialize(username);
                 sc.changeStage();
             }catch(IOException ex){
                 System.out.println("error");
             
             }
-        }
-        
-        
-        
+        }       
     }
-    
     
     @FXML
     private void onClickCancel(ActionEvent event){

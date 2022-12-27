@@ -23,6 +23,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
@@ -187,15 +189,30 @@ public class Screen1Controller {
         try{
             File file = new File(path);
             if(file.isFile()){
-                FileWriter fw = new FileWriter(file);
-                BufferedWriter bw = new BufferedWriter(fw);
-                bw.write(content);
-                bw.flush();
-                bw.close();
-                fw.close();
+                if(file.canWrite()){
+                    FileWriter fw = new FileWriter(file);
+                    BufferedWriter bw = new BufferedWriter(fw);
+                    bw.write(content);
+                    bw.flush();
+                    bw.close();
+                    fw.close();
+                }else{
+                    try{
+                        Stage stage = new Stage();
+                        FXMLLoader fxml = new FXMLLoader(getClass().getResource("readonly.fxml"));
+                        Parent root = fxml.load();
+                        Scene s = new Scene(root);
+                        stage.setScene(s);
+                        stage.show();
+                        stageOfTextArea = (Stage)txtArea.getScene().getWindow();
+                    }catch(IOException ex){
+                        System.out.println(" ee error");
+            
+                    }
+                }               
             }
         } catch (IOException ex) {
-            System.out.println("error");
+            System.out.println(" hh error");
         }
     }
 

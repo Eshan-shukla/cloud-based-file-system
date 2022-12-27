@@ -60,6 +60,7 @@ public class LogInController {
         String password = txtPassword.getText();
         Account a = new Account();
         boolean validateUser = a.validateUser(username, password);
+        System.out.println(validateUser);
         if(validateUser){
             System.out.println("successfully logged in!!");
             Stage s = new Stage();

@@ -73,7 +73,7 @@ public class FileOperation {
         
     }
     
-    public void writeContent(String line, String path){
+    public void writeContent(String line, String path, String permission){
         //write into the path
         File file = new File(path);
         try{
@@ -85,6 +85,11 @@ public class FileOperation {
             fw.close();
         }catch(IOException ex){
             System.out.println("error");
+        }
+        if(file.exists()){
+            if(permission.equals("ro")){
+                file.setReadOnly();
+            }
         }
     }
     

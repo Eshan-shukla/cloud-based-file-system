@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="175.0" prefWidth="367.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.app.readOnlyController">
+   <children>
+      <Button fx:id="btnOk" layoutX="274.0" layoutY="136.0" mnemonicParsing="false" onAction="#onClickOk" prefHeight="25.0" prefWidth="72.0" text="Ok" />
+      <Label layoutX="46.0" layoutY="67.0" prefHeight="25.0" prefWidth="284.0" text="Content cannot be changed. " />
+   </children>
+</AnchorPane>

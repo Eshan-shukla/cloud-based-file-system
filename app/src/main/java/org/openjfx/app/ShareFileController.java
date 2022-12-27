@@ -17,6 +17,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -29,6 +30,8 @@ public class ShareFileController {
     private TextField txtUsername;
     @FXML
     private Label lbl;
+    @FXML
+    private RadioButton readWrite, readOnly;   
     private String fileToBeShared;
     private String path;
     
@@ -42,6 +45,12 @@ public class ShareFileController {
     
     @FXML
     private void onClickShare(ActionEvent event){
+        String per = "";
+        if(readWrite.isSelected()){
+            per = "rw";
+        } else if(readOnly.isSelected()){
+            per = "ro";
+        }
         String filename = this.fileToBeShared;
         String username = txtUsername.getText();
         String p = "";
@@ -59,32 +68,19 @@ public class ShareFileController {
                 while((line = br.readLine()) != null){
                     content = content + line + "\n";
                 }
-                fo.writeContent(content, p+filename);
+                fo.writeContent(content, p+filename, per);
                 fr.close();
                 br.close();
-                    
+
             } catch (FileNotFoundException ex) {
                 System.out.println("error");
             } catch (IOException ex) {
                 System.out.println("error");
             }
-//            try{
-//                FXMLLoader fxml = new FXMLLoader(getClass().getResource("screen1.fxml"));
-//                Parent root = fxml.load();
-//                Screen1Controller sc = fxml.getController();
-//                sc.changeStage();
-//            }catch(IOException ex){
-//                System.out.println("error");
-//            
-//            }
             Stage s = (Stage)((Node)event.getSource()).getScene().getWindow();
             s.close();
-        
         } else{
             lbl.setText("Username does not exist");
-        }
-        
-       
-        
+        }      
     }
 }

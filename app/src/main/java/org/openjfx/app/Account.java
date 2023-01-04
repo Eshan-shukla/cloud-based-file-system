@@ -4,7 +4,10 @@
  */
 package org.openjfx.app;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import static java.lang.Math.random;
@@ -60,6 +63,25 @@ public class Account {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    
+    public static void setFlagLoggedIn(boolean val, String username){
+        Connection connection = null;
+        Statement stmt = null;
+        try{
+            connection = DriverManager.getConnection(FILENAME);
+            stmt = connection.createStatement();
+            stmt.setQueryTimeout(30);
+            String sql = "UPDATE Users SET Loggedin = '"+val+"' WHERE Username = '"+ username+"';";
+            stmt.executeUpdate(sql);
+        }catch(SQLException e){
+            System.out.println("error");
+        }
+        
+    }
+    
+    public static void getFlagLoggedIn(){
+        
     }
     
     public static boolean checkUser(String username){

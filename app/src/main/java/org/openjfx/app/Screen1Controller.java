@@ -4,6 +4,12 @@
  */
 package org.openjfx.app;
 
+import com.jcraft.jsch.ChannelSftp;
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.Session;
+import com.jcraft.jsch.SftpATTRS;
+import com.jcraft.jsch.SftpException;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -80,61 +86,162 @@ public class Screen1Controller {
     private TextArea txtArea;
     String[] fileName = {};
     private static String username;
-    private static Stage stageOfTextArea;
-    
+    private static Stage stageOfTextArea;   
     private String currentFileSelected;
    
     public void initialize() {
        this.username = LogInController.getTxtUsername();
-       String dirPath = "/home/ntu-user/NetBeansProjects/files/";
-       String path = dirPath + this.username;
-       try{
-           File dir = new File(path);
-           this.fileName = dir.list();
-           TreeItem<String> root = new TreeItem<>("Your Folders");
-           Vector<TreeItem<String>> branches = createView(fileName, path + "/");
-           int len = branches.size();
-           for(int i = 0; i < len; ++i){
-               root.getChildren().add(branches.get(i));
-           }
-         myTreeView.setRoot(root);
-       } catch(SecurityException ex){
-           System.out.println("error");
-       } catch(NullPointerException ex){
-           System.out.println("which error");
-       }            
+        //String dirPath = "/home/ntu-user/NetBeansProjects/files/";
+        //String path = dirPath + this.username;
+        String path = "/tmp/files/" + username;
+        Vector<String> files = new Vector<String>();
+        //File file = new File(path);
+        TreeItem<String> root = new TreeItem<>("Your Folders");
+        files = getFileNames(path);
+        Vector<TreeItem<String>> branches = createView(files, path + "/");
+        for(int i = 0; i < branches.size(); ++i){
+
+            root.getChildren().add(branches.get(i));
+        }
+        myTreeView.setRoot(root);
+//       try{
+//           File dir = new File(path);
+//           this.fileName = dir.list();
+//           TreeItem<String> root = new TreeItem<>("Your Folders");
+//           Vector<TreeItem<String>> branches = createView(fileName, path + "/");
+//           int len = branches.size();
+//           for(int i = 0; i < len; ++i){
+//               root.getChildren().add(branches.get(i));
+//           }
+//         myTreeView.setRoot(root);
+//       } catch(SecurityException ex){
+//           System.out.println("error");
+//       } catch(NullPointerException ex){
+//           System.out.println("in initialize");
+//       }            
+    }
+        private Vector<String> getFileNames(String path){
+        Vector<String> filenames = new Vector<String>();
+        int len = 0;
+        try{
+            JSch jsch = new JSch();
+            //jsch.addIdentity("/home/eshan/NetBeansProjects/network/SFTP/src/main/java/org/openjfx/sftp/pvk");
+            //jsch.setKnownHosts("/home/eshan/.ssh/known_hosts");
+            Session session = jsch.getSession("root","172.20.0.3",22);
+            session.setPassword("soft40051_pass");
+            session.setConfig("StrictHostKeyChecking", "no");
+            session.connect();
+            ChannelSftp channel = (ChannelSftp)session.openChannel("sftp");
+            channel.connect();
+            Vector<ChannelSftp.LsEntry> files = channel.ls(path);
+            channel.disconnect();
+            session.disconnect();
+            for(ChannelSftp.LsEntry s : files){
+                String name = s.getFilename();
+                if(!((name.equals(".")) || name.equals(".."))){
+                    filenames.add(name);
+                    
+                }
+                
+            }
+        }catch(JSchException ex){
+            System.out.println(ex);
+            
+        } catch (SftpException ex) {
+            System.out.println(ex);
+           
+        }
+        return filenames;
     }
     
-    private Vector<TreeItem<String>> createView(String[] fileName, String rootPath){
+    private boolean isDir(String path){
+        try{
+            JSch jsch = new JSch();
+            //jsch.addIdentity("/home/eshan/NetBeansProjects/network/SFTP/src/main/java/org/openjfx/sftp/pvk");
+            //jsch.setKnownHosts("/home/eshan/.ssh/known_hosts");
+            Session session = jsch.getSession("root","172.20.0.3",22);
+            session.setPassword("soft40051_pass");
+            session.setConfig("StrictHostKeyChecking", "no");
+            session.connect();
+            ChannelSftp channel = (ChannelSftp)session.openChannel("sftp");
+            channel.connect();
+            SftpATTRS atr = channel.lstat(path);
+            channel.disconnect();
+            session.disconnect();
+            if(atr.isDir()){
+                return true;        //return true if directory
+            }else{
+                return false;       //else file
+            }
+        }catch(JSchException ex){
+            System.out.println(ex);
+            
+        } catch (SftpException ex) {
+            System.out.println(ex);
+           
+        }
+       return true; 
+    }
+    
+        private Vector<TreeItem<String>> createView(Vector<String> fileName, String rootPath){
         Vector<TreeItem<String>> branches = new Vector<TreeItem<String>>();
         String tempPath = rootPath;
         for(String s : fileName){
+            if(!((s.equals(".")) || s.equals(".."))){
             tempPath = rootPath + s;
-            try{
-                File f = new File(tempPath);
-                if(f.isDirectory()){
-                    TreeItem<String> root = new TreeItem<String>(s);
-                    fileName = f.list();
-                    Vector<TreeItem<String>> tempBranch = createView(fileName, tempPath + "/");
-                    int len = tempBranch.size();
-                    for(int i = 0; i < len; ++i){
-                        root.getChildren().add(tempBranch.get(i));
-                    }
-                    branches.add(root);
-                }else{
-                    TreeItem<String> branch = new TreeItem<String>(s);
-                    branches.add(branch);
+            //File f = new File(tempPath);
+            if(isDir(tempPath)){
+                TreeItem<String> root = new TreeItem<String>(s);
+                fileName = getFileNames(tempPath);
+                Vector<TreeItem<String>> tempBranch = createView(fileName, tempPath + "/");
+                for(int i = 0; i < tempBranch.size(); ++i){
+                    root.getChildren().add(tempBranch.get(i));
+                    
                 }
-                
-            }catch(SecurityException ex){
-                System.out.println("error");
-            } catch(NullPointerException ex){
-                System.out.println("which error");
+                branches.add(root);
             }
-            
+            else{
+                TreeItem<String> branch = new TreeItem<String>(s);
+                branches.add(branch);
+            }
+                
         }
-        return branches;
+       
     }
+         return branches;
+  }
+    
+//    private Vector<TreeItem<String>> createView(String[] fileName, String rootPath){
+//        Vector<TreeItem<String>> branches = new Vector<TreeItem<String>>();
+//        String tempPath = rootPath;
+//        for(String s : fileName){
+//            tempPath = rootPath + s;
+//            try{
+//                File f = new File(tempPath);
+//                if(f.isDirectory()){
+//                    TreeItem<String> root = new TreeItem<String>(s);
+//                    fileName = f.list();
+//                    Vector<TreeItem<String>> tempBranch = createView(fileName, tempPath + "/");
+//                    int len = tempBranch.size();
+//                    for(int i = 0; i < len; ++i){
+//                        root.getChildren().add(tempBranch.get(i));
+//                    }
+//                    branches.add(root);
+//                }else{
+//                    TreeItem<String> branch = new TreeItem<String>(s);
+//                    branches.add(branch);
+//                }
+//                
+//            }catch(SecurityException ex){
+//                System.out.println("error");
+//            } catch(NullPointerException ex){
+//                System.out.println("which error");
+//            }
+//            
+//        }
+//        return branches;
+//    }
+    
 
     public void setUsername(String user) {
         this.username = user;
@@ -148,7 +255,7 @@ public class Screen1Controller {
     @FXML
     private void onClickCreateFile(ActionEvent event) throws IOException {
         String username = LogInController.getTxtUsername();
-        String path = "/home/ntu-user/NetBeansProjects/files/" + username;
+        String path = "/tmp/files/" + username;
         Stage stage = new Stage();
         FXMLLoader fxml = new FXMLLoader(getClass().getResource("filename.fxml"));
         Parent root = fxml.load();
@@ -165,7 +272,7 @@ public class Screen1Controller {
     private void onClickCreateDirectory(ActionEvent event){
         try {
             String username = LogInController.getTxtUsername();
-            String path = "/home/ntu-user/NetBeansProjects/files/" + username;
+            String path = "/tmp/files/" + username;                  //path of the container
             Stage stage = new Stage();
             FXMLLoader fxml = new FXMLLoader(getClass().getResource("foldername.fxml"));
             Parent root = fxml.load();
@@ -224,12 +331,21 @@ public class Screen1Controller {
 
     @FXML
     private void profile(ActionEvent event) {
-
+         
     }
 
     @FXML
     private void logout(ActionEvent event) {
-        
+        try{
+            stageOfTextArea = (Stage)txtArea.getScene().getWindow();
+            FXMLLoader fxml = new FXMLLoader(getClass().getResource("logIn.fxml"));
+            Parent root = fxml.load();
+            Scene scene = new Scene(root,400,400);
+            stageOfTextArea.setScene(scene);
+            stageOfTextArea.show();
+        }catch(IOException e){
+            System.out.println(e);
+        }
     }
     
     @FXML
@@ -272,10 +388,9 @@ public class Screen1Controller {
     private void onClickContextCreateFile(ActionEvent event) throws IOException{
         TreeItem<String> item = myTreeView.getSelectionModel().getSelectedItem();
         String username = LogInController.getTxtUsername();
-        String path = "/home/ntu-user/NetBeansProjects/files/" + getPath(item);
+        String path = "/tmp/files/" + getPath(item);
         try{
-            File dir = new File(path);
-            if(dir.isDirectory()){
+            if(isDir(path)){
                 Stage stage = new Stage();
                 FXMLLoader fxml = new FXMLLoader(getClass().getResource("filename.fxml"));
                 Parent root = fxml.load();
@@ -298,10 +413,10 @@ public class Screen1Controller {
     private void onClickContextCreateDir(ActionEvent event){
         TreeItem<String> item = myTreeView.getSelectionModel().getSelectedItem();
         String username = LogInController.getTxtUsername();
-        String path = "/home/ntu-user/NetBeansProjects/files/" + getPath(item);
+        String path = "/tmp/files/" + getPath(item);
         try{
-            File dir = new File(path);
-            if(dir.isDirectory()){
+            //File dir = new File(path);
+            if(isDir(path)){
                 Stage stage = new Stage();
                 FXMLLoader fxml = new FXMLLoader(getClass().getResource("foldername.fxml"));
                 Parent root = fxml.load();

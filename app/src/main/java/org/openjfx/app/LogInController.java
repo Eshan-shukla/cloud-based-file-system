@@ -29,18 +29,14 @@ public class LogInController {
 
     @FXML
     private TextField txtUsername;
-
-    
     @FXML
     private PasswordField txtPassword;
     @FXML
     private Button btnLogIn;
     @FXML
-    private Button btnSignUp;
-    
+    private Button btnSignUp; 
     @FXML
     private Label lblIncorrect;
-    
     private static String s;
 
     /**
@@ -54,7 +50,7 @@ public class LogInController {
     }    
 
     @FXML
-    private void onClickLogIn(ActionEvent event) throws IOException {
+    private void onClickLogIn(ActionEvent event) throws IOException {   
         s = txtUsername.getText();
         String username = txtUsername.getText();
         String password = txtPassword.getText();
@@ -62,7 +58,6 @@ public class LogInController {
         boolean validateUser = a.validateUser(username, password);
         System.out.println(validateUser);
         if(validateUser){
-            System.out.println("successfully logged in!!");
             Stage s = new Stage();
             FXMLLoader fxml = new FXMLLoader(getClass().getResource("screen1.fxml"));
             Parent root = fxml.load();
@@ -72,13 +67,13 @@ public class LogInController {
             s.show();
             Stage st = (Stage)((Node)event.getSource()).getScene().getWindow();
             st.close();
-            
+            //Account.setFlagLoggedIn(true,);
+
         } else{
             lblIncorrect.setText("Incorrect Username or Password.");
             txtUsername.clear();
             txtPassword.clear();
-        }
-       
+        }    
     }
 
     @FXML

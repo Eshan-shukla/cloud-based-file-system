@@ -10,6 +10,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import com.jcraft.jsch.ChannelSftp;
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.Session;
+import com.jcraft.jsch.SftpException;
 
 /**
  *
@@ -24,39 +29,94 @@ public class FileOperation {
         this.username = username;
     }
     
-    public boolean createDirectory(String path, String filename){
-        String fullPath = path + "/" + filename;
+    public boolean createDirectory(String path, String dirname){       //create directory in the container
+        String fullPath = path + "/" + dirname;
+//        try{
+//            File dir = new File(fullPath);
+//            if(dir.mkdir()){
+//                return true;
+//            }else{
+//                return false;                           // if new directory was not created successfully return false 
+//            }
+//        }catch(NullPointerException ex){
+//            System.out.println("error");
+//        }catch(SecurityException ex){
+//            System.out.println("error");
+//        } 
         try{
-            File dir = new File(fullPath);
-            if(dir.mkdir()){
-                return true;
-            }else{
-                return false;                           // if new directory was not created successfully return false 
-            }
-        }catch(NullPointerException ex){
-            System.out.println("error");
-        }catch(SecurityException ex){
-            System.out.println("error");
+            JSch jsch = new JSch();
+            //jsch.addIdentity("/home/eshan/NetBeansProjects/network/SFTP/src/main/java/org/openjfx/sftp/pvk");
+            //jsch.setKnownHosts("/home/eshan/.ssh/known_hosts");
+            Session session = jsch.getSession("root","172.20.0.3",22);
+            session.setPassword("soft40051_pass");
+            session.setConfig("StrictHostKeyChecking", "no");
+            session.connect();
+            ChannelSftp channel = (ChannelSftp)session.openChannel("sftp");
+            channel.connect();
+            channel.mkdir(fullPath);
+            channel.disconnect();
+            session.disconnect();
+        }catch(JSchException ex){
+            System.out.println(ex);
+            return false;
+        } catch (SftpException ex) {
+            System.out.println(ex);
+            return false;
         }
+        
         return true;
     }
     
     public boolean createFile(String path, String filename){
-        String fullPath = path + "/" + filename;
-        try{
-            File file = new File(fullPath);
-            if(file.createNewFile()){
-                
-            }else{
+        String localfile = "/home/ntu-user/NetBeansProjects/files/";
+        String desfile = path + "/" + filename;
+        File file = new File(localfile + filename);
+        try {
+            //create a file in local directory
+            if(file.createNewFile()){}
+            else{
                 return false;
             }
-        }catch(NullPointerException ex){
-            System.out.println("error");
-        }catch(SecurityException ex){
-            System.out.println("error");
-        }catch(IOException ex){
-            System.out.println("error");
+            //        try{
+//            File file = new File(fullPath);
+//            if(file.createNewFile()){
+//                
+//            }else{
+//                return false;
+//            }
+//        }catch(NullPointerException ex){
+//            System.out.println("error");
+//        }catch(SecurityException ex){
+//            System.out.println("error");
+//        }catch(IOException ex){
+//            System.out.println("error");
+//        }
+        
+        } catch (IOException ex) {
+            Logger.getLogger(FileOperation.class.getName()).log(Level.SEVERE, null, ex);
         }
+        try{
+            JSch jsch = new JSch();
+            //jsch.addIdentity("/home/eshan/NetBeansProjects/network/SFTP/src/main/java/org/openjfx/sftp/pvk");
+            //jsch.setKnownHosts("/home/eshan/.ssh/known_hosts");
+            Session session = jsch.getSession("root","172.20.0.3",22);
+            session.setPassword("soft40051_pass");
+            session.setConfig("StrictHostKeyChecking", "no");
+            session.connect();
+            ChannelSftp channel = (ChannelSftp)session.openChannel("sftp");
+            channel.connect();
+            channel.put(localfile+filename, desfile);
+            channel.disconnect();
+            session.disconnect();
+        }catch(JSchException ex){
+            System.out.println(ex);
+            return false;
+        } catch (SftpException ex) {
+            System.out.println(ex);
+            return false;
+        }
+        if(file.delete()){}
+        
         return true;
     }
     

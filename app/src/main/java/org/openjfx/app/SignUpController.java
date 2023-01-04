@@ -50,7 +50,7 @@ public class SignUpController {
     private void onClickSignUp(ActionEvent event) {
         String username = txtUsername.getText();
         String path = "/home/ntu-user/NetBeansProjects/files/";
-        String filename = username;
+        String dirname = username;
         String password = txtConfirmPassword.getText();
         String cpassword = txtPassword.getText();
         boolean check = matchPasswords(password, cpassword);
@@ -62,7 +62,8 @@ public class SignUpController {
                 Account a = new Account();
                 a.createNewUser(username, password);
                 FileOperation fo = new FileOperation();
-                if(fo.createDirectory(path, filename)){
+                //if(fo.createDirectory(path, filename)){
+                if(fo.createDirectory("/tmp/files",dirname)){
                     
                 }else{
                     lblWrongPassword.setText("Username already exists.");

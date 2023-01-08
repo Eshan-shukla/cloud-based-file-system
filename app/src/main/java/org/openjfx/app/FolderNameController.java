@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 
 /**
  *
- * @author ntu-user
+ * @author N1097098
  */
 public class FolderNameController {
     @FXML

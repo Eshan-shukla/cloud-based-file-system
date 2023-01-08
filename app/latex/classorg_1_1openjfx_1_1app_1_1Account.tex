@@ -1,0 +1,106 @@
+\hypertarget{classorg_1_1openjfx_1_1app_1_1Account}{}\doxysection{org.\+openjfx.\+app.\+Account Class Reference}
+\label{classorg_1_1openjfx_1_1app_1_1Account}\index{org.openjfx.app.Account@{org.openjfx.app.Account}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classorg_1_1openjfx_1_1app_1_1Account_a1ca4e246aad9d28dfb531f0cbb8f7e01}{create\+New\+User}} (String username, String password)
+\begin{DoxyCompactList}\small\item\em Add username and password to the database. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classorg_1_1openjfx_1_1app_1_1Account_ae535527da4168a93f52ebe012a54d491}\label{classorg_1_1openjfx_1_1app_1_1Account_ae535527da4168a93f52ebe012a54d491}} 
+String {\bfseries generate\+Secure\+Password} (String password)  throws Invalid\+Key\+Spec\+Exception 
+\item 
+boolean \mbox{\hyperlink{classorg_1_1openjfx_1_1app_1_1Account_aea7798a817b24a7ca164e5ad9bd093aa}{validate\+User}} (String username, String password)
+\begin{DoxyCompactList}\small\item\em verify username and password against the database \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classorg_1_1openjfx_1_1app_1_1Account_afdb4c70769fb7a0410dbfb197625b6cf}\label{classorg_1_1openjfx_1_1app_1_1Account_afdb4c70769fb7a0410dbfb197625b6cf}} 
+void {\bfseries update\+Password} (String new\+Password)
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static boolean \mbox{\hyperlink{classorg_1_1openjfx_1_1app_1_1Account_acf84fc2a13f16ef6560dcc1ef8706120}{check\+User}} (String username)
+\begin{DoxyCompactList}\small\item\em checks if the username exists \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{classorg_1_1openjfx_1_1app_1_1Account_a96db169a65c52bef6054d649793d5809}{delete\+Existing\+User}} (String Username)
+\begin{DoxyCompactList}\small\item\em deletes existing user \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+N1097098 
+\end{DoxyAuthor}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classorg_1_1openjfx_1_1app_1_1Account_acf84fc2a13f16ef6560dcc1ef8706120}\label{classorg_1_1openjfx_1_1app_1_1Account_acf84fc2a13f16ef6560dcc1ef8706120}} 
+\index{org.openjfx.app.Account@{org.openjfx.app.Account}!checkUser@{checkUser}}
+\index{checkUser@{checkUser}!org.openjfx.app.Account@{org.openjfx.app.Account}}
+\doxysubsubsection{\texorpdfstring{checkUser()}{checkUser()}}
+{\footnotesize\ttfamily static boolean org.\+openjfx.\+app.\+Account.\+check\+User (\begin{DoxyParamCaption}\item[{String}]{username }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+checks if the username exists 
+
+
+\begin{DoxyParams}{Parameters}
+{\em username} & -\/ should be of type String \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if username exists, otherwise false 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classorg_1_1openjfx_1_1app_1_1Account_a1ca4e246aad9d28dfb531f0cbb8f7e01}\label{classorg_1_1openjfx_1_1app_1_1Account_a1ca4e246aad9d28dfb531f0cbb8f7e01}} 
+\index{org.openjfx.app.Account@{org.openjfx.app.Account}!createNewUser@{createNewUser}}
+\index{createNewUser@{createNewUser}!org.openjfx.app.Account@{org.openjfx.app.Account}}
+\doxysubsubsection{\texorpdfstring{createNewUser()}{createNewUser()}}
+{\footnotesize\ttfamily void org.\+openjfx.\+app.\+Account.\+create\+New\+User (\begin{DoxyParamCaption}\item[{String}]{username,  }\item[{String}]{password }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Add username and password to the database. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em username} & of type String \\
+\hline
+{\em password} & of type String \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classorg_1_1openjfx_1_1app_1_1Account_a96db169a65c52bef6054d649793d5809}\label{classorg_1_1openjfx_1_1app_1_1Account_a96db169a65c52bef6054d649793d5809}} 
+\index{org.openjfx.app.Account@{org.openjfx.app.Account}!deleteExistingUser@{deleteExistingUser}}
+\index{deleteExistingUser@{deleteExistingUser}!org.openjfx.app.Account@{org.openjfx.app.Account}}
+\doxysubsubsection{\texorpdfstring{deleteExistingUser()}{deleteExistingUser()}}
+{\footnotesize\ttfamily static void org.\+openjfx.\+app.\+Account.\+delete\+Existing\+User (\begin{DoxyParamCaption}\item[{String}]{Username }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+deletes existing user 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Username} & -\/ username of type string \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classorg_1_1openjfx_1_1app_1_1Account_aea7798a817b24a7ca164e5ad9bd093aa}\label{classorg_1_1openjfx_1_1app_1_1Account_aea7798a817b24a7ca164e5ad9bd093aa}} 
+\index{org.openjfx.app.Account@{org.openjfx.app.Account}!validateUser@{validateUser}}
+\index{validateUser@{validateUser}!org.openjfx.app.Account@{org.openjfx.app.Account}}
+\doxysubsubsection{\texorpdfstring{validateUser()}{validateUser()}}
+{\footnotesize\ttfamily boolean org.\+openjfx.\+app.\+Account.\+validate\+User (\begin{DoxyParamCaption}\item[{String}]{username,  }\item[{String}]{password }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+verify username and password against the database 
+
+
+\begin{DoxyParams}{Parameters}
+{\em username} & of type String \\
+\hline
+{\em password} & of type String \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if username and passwords exists, otherwise false 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/main/java/org/openjfx/app/Account.\+java\end{DoxyCompactItemize}

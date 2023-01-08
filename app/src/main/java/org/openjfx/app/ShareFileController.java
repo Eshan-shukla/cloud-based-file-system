@@ -4,6 +4,11 @@
  */
 package org.openjfx.app;
 
+import com.jcraft.jsch.ChannelSftp;
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.Session;
+import com.jcraft.jsch.SftpException;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -23,7 +28,7 @@ import javafx.stage.Stage;
 
 /**
  *
- * @author ntu-user
+ * @author N1097098
  */
 public class ShareFileController {
     @FXML
@@ -55,28 +60,41 @@ public class ShareFileController {
         String username = txtUsername.getText();
         String p = "";
         FileOperation fo = new FileOperation();
+        String remotepath = this.path;
+        String localpath = "/home/ntu-user/NetBeansProjects/files/" + filename;
+        String despath = "/tmp/files/" + txtUsername.getText() + "/" + filename;
         boolean check = Account.checkUser(txtUsername.getText());
         if(check){
-            p = "/home/ntu-user/NetBeansProjects/files/" + username + "/";
-            fo.shareFile(filename, username);
-            File file = new File(this.path);
             try{
-                FileReader fr = new FileReader(path);
-                BufferedReader br = new BufferedReader(fr);
-                String line = null;
-                String content = "";
-                while((line = br.readLine()) != null){
-                    content = content + line + "\n";
+                JSch jsch = new JSch();
+                //jsch.addIdentity("/home/eshan/NetBeansProjects/network/SFTP/src/main/java/org/openjfx/sftp/pvk");
+                //jsch.setKnownHosts("/home/eshan/.ssh/known_hosts");
+                Session session = jsch.getSession("root","172.20.0.3",22);
+                session.setPassword("soft40051_pass");
+                session.setConfig("StrictHostKeyChecking", "no");
+                session.connect();
+                ChannelSftp channel = (ChannelSftp)session.openChannel("sftp");
+                channel.connect();
+                channel.get(remotepath, localpath);
+                if(per.equals("ro")){
+                    File file = new File(localpath);
+                    file.setReadOnly();
                 }
-                fo.writeContent(content, p+filename, per);
-                fr.close();
-                br.close();
+                channel.put(localpath, despath);
+                channel.disconnect();
+                session.disconnect();
+            }catch(JSchException ex){
+                System.out.println(ex);
 
-            } catch (FileNotFoundException ex) {
-                System.out.println("error");
-            } catch (IOException ex) {
-                System.out.println("error");
+            } catch (SftpException ex) {
+                System.out.println(ex);
+
             }
+            File file = new File(localpath);
+            if(file.exists()){
+                if(file.delete()){}
+            }
+
             Stage s = (Stage)((Node)event.getSource()).getScene().getWindow();
             s.close();
         } else{

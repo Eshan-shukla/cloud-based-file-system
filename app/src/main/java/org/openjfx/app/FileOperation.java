@@ -23,30 +23,26 @@ import com.jcraft.jsch.SftpException;
 public class FileOperation {
     private static final String FILEPATH = "/home/ntu-user/NetBeansProjects/files/";
     private String username;
-
+    
+    /**
+     * @brief sets the username
+     * @param username - username should be of type String
+     */
     public void setUsername(String username) {
         //System.out.println(username);
         this.username = username;
     }
     
-    public boolean createDirectory(String path, String dirname){       //create directory in the container
+    /**
+     * @brief Creates a directory in the container
+     * @param path - path of the directory of type String 
+     * @param dirname - name of the directory of type String
+     * @return true if created successfully otherwise return false 
+     */
+    public boolean createDirectory(String path, String dirname){      
         String fullPath = path + "/" + dirname;
-//        try{
-//            File dir = new File(fullPath);
-//            if(dir.mkdir()){
-//                return true;
-//            }else{
-//                return false;                           // if new directory was not created successfully return false 
-//            }
-//        }catch(NullPointerException ex){
-//            System.out.println("error");
-//        }catch(SecurityException ex){
-//            System.out.println("error");
-//        } 
         try{
             JSch jsch = new JSch();
-            //jsch.addIdentity("/home/eshan/NetBeansProjects/network/SFTP/src/main/java/org/openjfx/sftp/pvk");
-            //jsch.setKnownHosts("/home/eshan/.ssh/known_hosts");
             Session session = jsch.getSession("root","172.20.0.3",22);
             session.setPassword("soft40051_pass");
             session.setConfig("StrictHostKeyChecking", "no");
@@ -67,6 +63,12 @@ public class FileOperation {
         return true;
     }
     
+    /**
+     * @brief Creates a file in the container
+     * @param path - path of the file of type String
+     * @param filename - name of the file of type String
+     * @return true if created successfully otherwise false
+     */
     public boolean createFile(String path, String filename){
         String localfile = "/home/ntu-user/NetBeansProjects/files/";
         String desfile = path + "/" + filename;
@@ -77,28 +79,12 @@ public class FileOperation {
             else{
                 return false;
             }
-            //        try{
-//            File file = new File(fullPath);
-//            if(file.createNewFile()){
-//                
-//            }else{
-//                return false;
-//            }
-//        }catch(NullPointerException ex){
-//            System.out.println("error");
-//        }catch(SecurityException ex){
-//            System.out.println("error");
-//        }catch(IOException ex){
-//            System.out.println("error");
-//        }
         
         } catch (IOException ex) {
             Logger.getLogger(FileOperation.class.getName()).log(Level.SEVERE, null, ex);
         }
         try{
             JSch jsch = new JSch();
-            //jsch.addIdentity("/home/eshan/NetBeansProjects/network/SFTP/src/main/java/org/openjfx/sftp/pvk");
-            //jsch.setKnownHosts("/home/eshan/.ssh/known_hosts");
             Session session = jsch.getSession("root","172.20.0.3",22);
             session.setPassword("soft40051_pass");
             session.setConfig("StrictHostKeyChecking", "no");
@@ -120,18 +106,19 @@ public class FileOperation {
         return true;
     }
     
-    //just share the file
-    public void shareFile(String filename, String username){
-        String path = "/home/ntu-user/NetBeansProjects/files/" + username + "/" + filename;
-        File file = new File(path);
-        try {
-            if(file.createNewFile()){}
-            //handle file with same name
-        } catch (IOException ex) {
-            System.out.println("error");
-        }
-        
-    }
+//    //just share the file
+//    public void shareFile(String filename, String username){
+//      
+//        String path = "/home/ntu-user/NetBeansProjects/files/" + username + "/" + filename;
+//        File file = new File(path);
+//        try {
+//            if(file.createNewFile()){}
+//            //handle file with same name
+//        } catch (IOException ex) {
+//            System.out.println("error");
+//        }
+//        
+//    }
     
     public void writeContent(String line, String path, String permission){
         //write into the path
@@ -153,15 +140,35 @@ public class FileOperation {
         }
     }
     
+    /**
+     * @brief deletes a file in the container
+     * @param path - path of the file to be deleted, should be of type String
+     */
     public void deleteFile(String path){
-        try{
-            File file = new File(path);
-            if(file.delete()){}
-            else{
-                System.out.println("error");
-            }
-        }catch(NullPointerException ex){
-            System.out.println("error");
+        try {
+            JSch jsch = new JSch();
+            Session session = jsch.getSession("root","172.20.0.2",22);
+            session.setPassword("soft40051_pass");
+            session.setConfig("StrictHostKeyChecking", "no");
+            session.connect();
+            ChannelSftp channel = (ChannelSftp)session.openChannel("sftp");
+            channel.connect();
+            channel.rm(path);
+            channel.disconnect();
+            session.disconnect();
+//        try{
+//            File file = new File(path);
+//            if(file.delete()){}
+//            else{
+//                System.out.println("error");
+//            }
+//        }catch(NullPointerException ex){
+//            System.out.println("error");
+//        }
+        } catch (JSchException ex) {
+            Logger.getLogger(FileOperation.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SftpException ex) {
+            Logger.getLogger(FileOperation.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     

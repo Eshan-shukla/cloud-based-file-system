@@ -1,0 +1,43 @@
+\@ifundefined {etoctocstyle}{\let \etoc@startlocaltoc \@gobble \let \etoc@settocdepth \@gobble \let \etoc@depthtag \@gobble \let \etoc@setlocaltop \@gobble }{}
+\contentsline {chapter}{\numberline {1}Hierarchical Index}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Class Hierarchy}{1}{section.1.1}%
+\contentsline {chapter}{\numberline {2}Class Index}{3}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Class List}{3}{section.2.1}%
+\contentsline {chapter}{\numberline {3}Class Documentation}{5}{chapter.3}%
+\contentsline {section}{\numberline {3.1}org.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}openjfx.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}app.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Account Class Reference}{5}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}Detailed Description}{5}{subsection.3.1.1}%
+\contentsline {subsection}{\numberline {3.1.2}Member Function Documentation}{5}{subsection.3.1.2}%
+\contentsline {subsubsection}{\numberline {3.1.2.1}checkUser()}{5}{subsubsection.3.1.2.1}%
+\contentsline {subsubsection}{\numberline {3.1.2.2}createNewUser()}{6}{subsubsection.3.1.2.2}%
+\contentsline {subsubsection}{\numberline {3.1.2.3}deleteExistingUser()}{6}{subsubsection.3.1.2.3}%
+\contentsline {subsubsection}{\numberline {3.1.2.4}validateUser()}{6}{subsubsection.3.1.2.4}%
+\contentsline {section}{\numberline {3.2}org.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}openjfx.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}app.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}App Class Reference}{7}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Detailed Description}{8}{subsection.3.2.1}%
+\contentsline {section}{\numberline {3.3}org.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}openjfx.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}app.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}File\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Name\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Controller Class Reference}{8}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Detailed Description}{8}{subsection.3.3.1}%
+\contentsline {section}{\numberline {3.4}org.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}openjfx.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}app.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}File\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Operation Class Reference}{8}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}Detailed Description}{9}{subsection.3.4.1}%
+\contentsline {subsection}{\numberline {3.4.2}Member Function Documentation}{9}{subsection.3.4.2}%
+\contentsline {subsubsection}{\numberline {3.4.2.1}createDirectory()}{9}{subsubsection.3.4.2.1}%
+\contentsline {subsubsection}{\numberline {3.4.2.2}createFile()}{9}{subsubsection.3.4.2.2}%
+\contentsline {subsubsection}{\numberline {3.4.2.3}deleteFile()}{10}{subsubsection.3.4.2.3}%
+\contentsline {subsubsection}{\numberline {3.4.2.4}setUsername()}{10}{subsubsection.3.4.2.4}%
+\contentsline {section}{\numberline {3.5}org.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}openjfx.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}app.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Folder\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Name2\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Controller Class Reference}{10}{section.3.5}%
+\contentsline {subsection}{\numberline {3.5.1}Detailed Description}{10}{subsection.3.5.1}%
+\contentsline {section}{\numberline {3.6}org.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}openjfx.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}app.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Folder\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Name\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Controller Class Reference}{11}{section.3.6}%
+\contentsline {subsection}{\numberline {3.6.1}Detailed Description}{11}{subsection.3.6.1}%
+\contentsline {section}{\numberline {3.7}org.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}openjfx.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}app.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Log\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}In\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Controller Class Reference}{11}{section.3.7}%
+\contentsline {subsection}{\numberline {3.7.1}Detailed Description}{11}{subsection.3.7.1}%
+\contentsline {subsection}{\numberline {3.7.2}Member Function Documentation}{11}{subsection.3.7.2}%
+\contentsline {subsubsection}{\numberline {3.7.2.1}initialize()}{11}{subsubsection.3.7.2.1}%
+\contentsline {section}{\numberline {3.8}org.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}openjfx.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}app.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}read\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Only\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Controller Class Reference}{12}{section.3.8}%
+\contentsline {subsection}{\numberline {3.8.1}Detailed Description}{12}{subsection.3.8.1}%
+\contentsline {section}{\numberline {3.9}org.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}openjfx.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}app.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Screen1\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Controller Class Reference}{12}{section.3.9}%
+\contentsline {subsection}{\numberline {3.9.1}Detailed Description}{12}{subsection.3.9.1}%
+\contentsline {section}{\numberline {3.10}org.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}openjfx.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}app.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Share\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}File\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Controller Class Reference}{12}{section.3.10}%
+\contentsline {subsection}{\numberline {3.10.1}Detailed Description}{13}{subsection.3.10.1}%
+\contentsline {section}{\numberline {3.11}org.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}openjfx.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}app.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Sign\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Up\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Controller Class Reference}{13}{section.3.11}%
+\contentsline {subsection}{\numberline {3.11.1}Detailed Description}{13}{subsection.3.11.1}%
+\contentsline {subsection}{\numberline {3.11.2}Member Function Documentation}{13}{subsection.3.11.2}%
+\contentsline {subsubsection}{\numberline {3.11.2.1}initialize()}{13}{subsubsection.3.11.2.1}%
+\contentsline {chapter}{Index}{15}{section*.17}%

@@ -1,0 +1,49 @@
+* 0d57f4d onClickcreate file and onClickCreateDir and contextFile and contextDir created
+* f5e2f9c permission feature added
+* 23ec3f4 encrypted password stored in the database
+* a0a59a6 delete files and directory functionality added
+* 02703cd share and create directory functionality added
+* 3702dd4 open and save functionality created in Scree1Controller.java
+* fa4948c createfile functionality added
+* a86c80b context menu added
+*   e82105d Merge branch 'master' of https://olympuss.ntu.ac.uk/N1097098/Course-Work
+|\  
+| *   1a50cde Merge pull request #5 from N1097098/new-feature-added
+| |\  
+* | | b2c106c comments removed in FileOperation class
+| |/  
+|/|   
+* | d06125c FileOperation and Sinupcontroller updated
+|/  
+*   bc44762 Merge pull request #4 from N1097098/treeVie-created
+|\  
+| *   05b4676 Merge branch 'master' into treeVie-created
+| |\  
+| |/  
+|/|   
+* |   3c4eaf8 Merge branch 'master' of https://olympuss.ntu.ac.uk/N1097098/Course-Work
+|\ \  
+| * \   cc6fc14 Merge pull request #3 from N1097098/save-file-created
+| |\ \  
+| | | * 5f274ee Tree view added onto screen1 controller
+| |_|/  
+|/| |   
+* | | 24f95e2 create, save and delete functionalities added.
+|/ /  
+| | * 5b83e9e WIP on save-file-created: 278667c Save file menuitem created
+| |/| 
+| | * cb55aca index on save-file-created: 278667c Save file menuitem created
+| |/  
+| * 278667c Save file menuitem created
+|/  
+* 70fd469 create menu item logic completed
+* 0d72544 Merge pull request #2 from N1097098/new-feature-added
+*   38cdb61 Merge pull request #2 from N1097098/new-feature-added
+|\  
+| * 5056435 login and signup screen added and created relevant logic for it
+|/  
+*   b17b216 Merge pull request #1 from N1097098/log-in-screen
+|\  
+| * 473e0e7 log-in and sign up GUI created
+|/  
+* 80a8d58 README.md added

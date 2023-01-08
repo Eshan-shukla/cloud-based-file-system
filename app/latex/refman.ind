@@ -1,0 +1,59 @@
+\begin{theindex}
+
+  \item {checkUser}
+    \subitem {org.openjfx.app.Account}, \hyperpage{5}
+  \item {createDirectory}
+    \subitem {org.openjfx.app.FileOperation}, \hyperpage{9}
+  \item {createFile}
+    \subitem {org.openjfx.app.FileOperation}, \hyperpage{9}
+  \item {createNewUser}
+    \subitem {org.openjfx.app.Account}, \hyperpage{6}
+
+  \indexspace
+
+  \item {deleteExistingUser}
+    \subitem {org.openjfx.app.Account}, \hyperpage{6}
+  \item {deleteFile}
+    \subitem {org.openjfx.app.FileOperation}, \hyperpage{9}
+
+  \indexspace
+
+  \item {initialize}
+    \subitem {org.openjfx.app.LogInController}, \hyperpage{11}
+    \subitem {org.openjfx.app.SignUpController}, \hyperpage{13}
+
+  \indexspace
+
+  \item {org.openjfx.app.Account}, \hyperpage{5}
+    \subitem {checkUser}, \hyperpage{5}
+    \subitem {createNewUser}, \hyperpage{6}
+    \subitem {deleteExistingUser}, \hyperpage{6}
+    \subitem {validateUser}, \hyperpage{6}
+  \item {org.openjfx.app.App}, \hyperpage{7}
+  \item {org.openjfx.app.FileNameController}, \hyperpage{8}
+  \item {org.openjfx.app.FileOperation}, \hyperpage{8}
+    \subitem {createDirectory}, \hyperpage{9}
+    \subitem {createFile}, \hyperpage{9}
+    \subitem {deleteFile}, \hyperpage{9}
+    \subitem {setUsername}, \hyperpage{10}
+  \item {org.openjfx.app.FolderName2Controller}, \hyperpage{10}
+  \item {org.openjfx.app.FolderNameController}, \hyperpage{11}
+  \item {org.openjfx.app.LogInController}, \hyperpage{11}
+    \subitem {initialize}, \hyperpage{11}
+  \item {org.openjfx.app.readOnlyController}, \hyperpage{12}
+  \item {org.openjfx.app.Screen1Controller}, \hyperpage{12}
+  \item {org.openjfx.app.ShareFileController}, \hyperpage{12}
+  \item {org.openjfx.app.SignUpController}, \hyperpage{13}
+    \subitem {initialize}, \hyperpage{13}
+
+  \indexspace
+
+  \item {setUsername}
+    \subitem {org.openjfx.app.FileOperation}, \hyperpage{10}
+
+  \indexspace
+
+  \item {validateUser}
+    \subitem {org.openjfx.app.Account}, \hyperpage{6}
+
+\end{theindex}

@@ -4,6 +4,11 @@
  */
 package org.openjfx.app;
 
+import com.jcraft.jsch.ChannelSftp;
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.Session;
+import com.jcraft.jsch.SftpException;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -23,6 +28,7 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.fxml.FXMLLoader;
@@ -34,7 +40,7 @@ import javax.crypto.spec.PBEKeySpec;
 
 /**
  *
- * @author ntu-user
+ * @author N1097098
  */
 public class Account {
     
@@ -65,33 +71,49 @@ public class Account {
         }
     }
     
-    public static void setFlagLoggedIn(boolean val, String username){
-        Connection connection = null;
-        Statement stmt = null;
-        try{
-            connection = DriverManager.getConnection(FILENAME);
-            stmt = connection.createStatement();
-            stmt.setQueryTimeout(30);
-            String sql = "UPDATE Users SET Loggedin = '"+val+"' WHERE Username = '"+ username+"';";
-            stmt.executeUpdate(sql);
-        }catch(SQLException e){
-            System.out.println("error");
-        }
-        
-    }
-    
-    public static void getFlagLoggedIn(){
-        
-    }
-    
+    /**
+     * @brief checks if the username exists
+     * @param username - should be of type String
+     * @return true if username exists, otherwise false
+     */
     public static boolean checkUser(String username){
-        String path = "/home/ntu-user/NetBeansProjects/files/" + username;
-        File dir = new File(path);
-        if(dir.exists()){
-            return true;
-        }else{
-            return false;
+        String path = "/tmp/files/";
+        Vector<String> dirnames = new Vector<String>();
+        try{
+            JSch jsch = new JSch();
+            Session session = jsch.getSession("root","172.20.0.3",22);
+            session.setPassword("soft40051_pass");
+            session.setConfig("StrictHostKeyChecking", "no");
+            session.connect();
+            ChannelSftp channel = (ChannelSftp)session.openChannel("sftp");
+            channel.connect();
+            Vector<ChannelSftp.LsEntry> files = channel.ls(path);
+            channel.disconnect();
+            session.disconnect();
+            for(ChannelSftp.LsEntry s : files){
+                String name = s.getFilename();
+                if(!((name.equals(".")) || name.equals(".."))){
+                    if(username.equals(name)){
+                        return true;
+                    }
+                    
+                }
+                
+            }
+        }catch(JSchException ex){
+            System.out.println(ex);
+            
+        } catch (SftpException ex) {
+            System.out.println(ex);
+           
         }
+        return false;
+//        File dir = new File(path);
+//        if(dir.exists()){
+//            return true;
+//        }else{
+//            return false;
+//        }
     }
     
     /**
@@ -207,16 +229,43 @@ public class Account {
         return result;
     }
     
-    public void deleteExistingUser(){
-        
+    /**
+     * @brief deletes existing user
+     * @param Username - username of type string
+     * 
+     */
+    public static void deleteExistingUser(String Username){
+        Connection connection = null;
+        Statement stmt = null;
+        try{
+            connection = DriverManager.getConnection(FILENAME);
+            stmt = connection.createStatement();
+            stmt.setQueryTimeout(30);
+            String sql = "DELETE FROM Users WHERE Username = " + "'"+ Username + "'";
+            stmt.executeUpdate(sql);
+
+            String path = "/home/ntu-user/NetBeansProjects/files/" + Username;
+            File file =new File(path);
+            file.delete();
+
+        } catch(SQLException ex){
+            System.out.println("error");
+        } finally{
+            try{
+                if(connection!=null){
+                    connection.close();
+                }       
+                if(stmt != null){
+                    stmt.close();
+                }
+            }catch(SQLException ex){
+                System.out.println("error!!!");
+            }
+        }
     }
     
     public void updatePassword(String newPassword){
         
     }
-    
-    
-    
-    
-    
+       
 }

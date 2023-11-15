@@ -84,6 +84,8 @@ public class Screen1Controller {
     @FXML
     private MenuItem save;
     @FXML
+    private MenuItem AccDelete;
+    @FXML
     private MenuItem close;
     @FXML
     private TextArea txtArea;
@@ -91,83 +93,52 @@ public class Screen1Controller {
     private static String username;
     private static Stage stageOfTextArea;   
     private String currentFileSelected;
+    private String fixedPath = "C:\\Users\\eshan\\OneDrive\\Desktop\\files\\";
    
     public void initialize() {
        this.username = LogInController.getTxtUsername();
-        String path = "/tmp/files/" + username;
+        String path = fixedPath + username;
         Vector<String> files = new Vector<String>();
         TreeItem<String> root = new TreeItem<>("Your Folders");
         files = getFileNames(path);
-        Vector<TreeItem<String>> branches = createView(files, path + "/");
+        //Vector<TreeItem<String>> branches = createView(files, path + "/");
+        Vector<TreeItem<String>> branches = createView(files, path + "\\");
         for(int i = 0; i < branches.size(); ++i){
             root.getChildren().add(branches.get(i));
         }
         myTreeView.setRoot(root);           
     }
-        private Vector<String> getFileNames(String path){
+        
+    private Vector<String> getFileNames(String path){
         Vector<String> filenames = new Vector<String>();
         int len = 0;
-        try{
-            JSch jsch = new JSch();
-            //jsch.addIdentity("/home/eshan/NetBeansProjects/network/SFTP/src/main/java/org/openjfx/sftp/pvk");
-            //jsch.setKnownHosts("/home/eshan/.ssh/known_hosts");
-            Session session = jsch.getSession("root","172.20.0.3",22);
-            session.setPassword("soft40051_pass");
-            session.setConfig("StrictHostKeyChecking", "no");
-            session.connect();
-            ChannelSftp channel = (ChannelSftp)session.openChannel("sftp");
-            channel.connect();
-            Vector<ChannelSftp.LsEntry> files = channel.ls(path);
-            channel.disconnect();
-            session.disconnect();
-            for(ChannelSftp.LsEntry s : files){
-                String name = s.getFilename();
-                if(!((name.equals(".")) || name.equals(".."))){
-                    filenames.add(name);
+        // File object
+        File maindir = new File(path);
+        if(maindir.exists() && maindir.isDirectory()){
+            String[] files = maindir.list();
+            for(String s : files){
+                //String name = s.getFilename();
+                if(!((s.equals(".")) || s.equals(".."))){
+                    filenames.add(s);
                     
                 }
                 
             }
-        }catch(JSchException ex){
-            System.out.println(ex);
-            
-        } catch (SftpException ex) {
-            System.out.println(ex);
-           
         }
         return filenames;
     }
     
     private boolean isDir(String path){
-        try{
-            JSch jsch = new JSch();
-            //jsch.addIdentity("/home/eshan/NetBeansProjects/network/SFTP/src/main/java/org/openjfx/sftp/pvk");
-            //jsch.setKnownHosts("/home/eshan/.ssh/known_hosts");
-            Session session = jsch.getSession("root","172.20.0.3",22);
-            session.setPassword("soft40051_pass");
-            session.setConfig("StrictHostKeyChecking", "no");
-            session.connect();
-            ChannelSftp channel = (ChannelSftp)session.openChannel("sftp");
-            channel.connect();
-            SftpATTRS atr = channel.lstat(path);
-            channel.disconnect();
-            session.disconnect();
-            if(atr.isDir()){
-                return true;        //return true if directory
-            }else{
-                return false;       //else file
-            }
-        }catch(JSchException ex){
-            System.out.println(ex);
-            
-        } catch (SftpException ex) {
-            System.out.println(ex);
-           
+        File file = new File(path);
+        if(file.isDirectory()){
+            return true;
+        }else{
+            return false;
         }
-       return true; 
+ 
     }
     
-        private Vector<TreeItem<String>> createView(Vector<String> fileName, String rootPath){
+    private Vector<TreeItem<String>> createView(Vector<String> fileName, String rootPath){
         Vector<TreeItem<String>> branches = new Vector<TreeItem<String>>();
         String tempPath = rootPath;
         for(String s : fileName){
@@ -191,8 +162,8 @@ public class Screen1Controller {
                 
         }
        
-    }
-         return branches;
+        }
+        return branches;
   }
     
 
@@ -206,9 +177,9 @@ public class Screen1Controller {
      */
     @FXML
     private void onClickUpload(ActionEvent event) {
-         String path = "/home/ntu-user/NetBeansProjects/files";
+        //String path = "/home/ntu-user/NetBeansProjects/files";
         String username = LogInController.getTxtUsername();
-        String p = path + "/" + username;
+        String p = fixedPath + username;
         FileOperation fo = new FileOperation();
         FileChooser fileChooser = new FileChooser();
           fileChooser.setTitle("Select Text File");
@@ -217,7 +188,8 @@ public class Screen1Controller {
           );
           File selectedFile = fileChooser.showOpenDialog(contextMenu);
           String f = selectedFile.getName();
-          String fullPath = path + "/" + username + "/" + f;
+          //String fullPath = path + "/" + username + "/" + f;
+          String fullPath = fixedPath + "\\" + username + "\\" + f;
           if(fo.createFile(p, f)){
               try {
                 BufferedReader reader = new BufferedReader(new FileReader(selectedFile));
@@ -234,6 +206,7 @@ public class Screen1Controller {
                 reader.close();
              } catch (IOException e) {
                 e.printStackTrace();
+                FileOperation.showError();
              }
           }
           stageOfTextArea = (Stage)txtArea.getScene().getWindow();
@@ -244,7 +217,7 @@ public class Screen1Controller {
                 sc.changeStage();
             }catch(IOException ex){
                 System.out.println("error");
-
+                FileOperation.showError();
             }
     }
     
@@ -277,7 +250,8 @@ public class Screen1Controller {
     private void onClickCreateDirectory(ActionEvent event){
         try {
             String username = LogInController.getTxtUsername();
-            String path = "/tmp/files/" + username;                  //path of the container
+            //String path = "/tmp/files/" + username;                  //path of the container
+            String path = fixedPath + username;
             Stage stage = new Stage();
             FXMLLoader fxml = new FXMLLoader(getClass().getResource("foldername.fxml"));
             Parent root = fxml.load();
@@ -290,6 +264,7 @@ public class Screen1Controller {
             stageOfTextArea = (Stage)txtArea.getScene().getWindow();
         } catch (IOException ex) {
             System.out.println("error");
+            FileOperation.showError();
         }
     }
     
@@ -300,16 +275,15 @@ public class Screen1Controller {
     @FXML
     private void onClickSave(ActionEvent event) {
         TreeItem<String> item = myTreeView.getSelectionModel().getSelectedItem();
-        String despath = "/tmp/files/" + getPath(item);
-        String localpath = "/home/ntu-user/NetBeansProjects/files/" + item.getValue();
+        String despath = fixedPath + getPath(item);
         String content = txtArea.getText();
         try{
-            File file = new File(localpath);
-            if(file.createNewFile()){
-                
-            }else{
-                System.out.println("error");
-            }
+            File file = new File(despath);
+//            if(file.createNewFile()){
+//                
+//            }else{
+//                System.out.println("error");
+//            }
             if(file.isFile()){
                 if(file.canWrite()){
                     FileWriter fw = new FileWriter(file);
@@ -318,48 +292,11 @@ public class Screen1Controller {
                     bw.flush();
                     bw.close();
                     fw.close();
-                    //n=after writing the content into the local file send it to the container
-                    try{
-                        JSch jsch = new JSch();
-                        Session session = jsch.getSession("root","172.20.0.3",22);
-                        session.setPassword("soft40051_pass");
-                        session.setConfig("StrictHostKeyChecking", "no");
-                        session.connect();
-                        ChannelSftp channel = (ChannelSftp)session.openChannel("sftp");
-                        channel.connect();
-                        channel.put(localpath, despath);
-                        channel.disconnect();
-                        session.disconnect();
-                    }catch(JSchException ex){
-                        System.out.println(ex);
-
-                    } catch (SftpException ex) {
-                        System.out.println(ex);
-                    }
-                    //delete file in the local directory
-                    if(file.exists()){
-                        if(file.delete()){}
-                        else{
-                            System.out.println("not present");
-                        }
-                    }
-                }else{
-                    try{
-                        Stage stage = new Stage();
-                        FXMLLoader fxml = new FXMLLoader(getClass().getResource("readonly.fxml"));
-                        Parent root = fxml.load();
-                        Scene s = new Scene(root);
-                        stage.setScene(s);
-                        stage.show();
-                        stageOfTextArea = (Stage)txtArea.getScene().getWindow();
-                    }catch(IOException ex){
-                        System.out.println(" ee error");
-            
-                    }
-                }               
+                }           
             }
         } catch (IOException ex) {
             System.out.println(" hh error");
+            FileOperation.showError();
         }
     }
 
@@ -393,6 +330,7 @@ public class Screen1Controller {
 
             } catch (IOException ex) {
                 ex.printStackTrace();
+                FileOperation.showError();
             }
 
 
@@ -407,32 +345,9 @@ public class Screen1Controller {
     private void onClickContextOpen(ActionEvent event){
         String username = LogInController.getTxtUsername();
         TreeItem<String> item = myTreeView.getSelectionModel().getSelectedItem();
-        String localpath = "/home/ntu-user/NetBeansProjects/files/" + item.getValue();
-        String remotepath = "/tmp/files/" + getPath(item);
+        String despath = fixedPath + getPath(item);
         try{
-            File file = new File(localpath);
-            if(file.createNewFile()){
-                
-            }else{
-                System.out.println("error");
-            }
-             try{
-                JSch jsch = new JSch();
-                Session session = jsch.getSession("root","172.20.0.3",22);
-                session.setPassword("soft40051_pass");
-                session.setConfig("StrictHostKeyChecking", "no");
-                session.connect();
-                ChannelSftp channel = (ChannelSftp)session.openChannel("sftp");
-                channel.connect();
-                channel.get(remotepath, localpath);
-                channel.disconnect();
-                session.disconnect();
-                }catch(JSchException ex){
-                    System.out.println(ex);
-
-                } catch (SftpException ex) {
-                    System.out.println(ex);
-                }
+            File file = new File(despath);
             if(file.isFile()){
                 FileReader fr = new FileReader(file);
                 BufferedReader br = new BufferedReader(fr);
@@ -445,12 +360,14 @@ public class Screen1Controller {
                 br.close();
                 fr.close();
             }
-            if(file.delete()){}
+            //if(file.delete()){}
             
         } catch (IOException ex) {
             System.out.println("error");
+            FileOperation.showError();
         } catch(NullPointerException ex){
             System.out.println("error");
+            FileOperation.showError();
         }
     }
     
@@ -460,7 +377,8 @@ public class Screen1Controller {
             return LogInController.getTxtUsername();
         } else {
             TreeItem<String> item = file.getParent();
-            String path = getPath(item) + "/" + file.getValue();
+            //String path = getPath(item) + "/" + file.getValue();
+            String path = getPath(item) + "\\" + file.getValue();
             return path;
         }       
     }
@@ -474,7 +392,8 @@ public class Screen1Controller {
     private void onClickContextCreateFile(ActionEvent event) throws IOException{
         TreeItem<String> item = myTreeView.getSelectionModel().getSelectedItem();
         String username = LogInController.getTxtUsername();
-        String path = "/tmp/files/" + getPath(item);
+        //String path = "/tmp/files/" + getPath(item);
+        String path = fixedPath + getPath(item);
         try{
             if(isDir(path)){
                 Stage stage = new Stage();
@@ -490,6 +409,7 @@ public class Screen1Controller {
             }
         }catch(IOException ex){
             System.out.println("error");
+            FileOperation.showError();
         }
         
     }
@@ -502,7 +422,7 @@ public class Screen1Controller {
     private void onClickContextCreateDir(ActionEvent event){
         TreeItem<String> item = myTreeView.getSelectionModel().getSelectedItem();
         String username = LogInController.getTxtUsername();
-        String path = "/tmp/files/" + getPath(item);
+        String path = fixedPath + getPath(item);
         try{
             //File dir = new File(path);
             if(isDir(path)){
@@ -519,6 +439,7 @@ public class Screen1Controller {
             }
         }catch(IOException ex){
             System.out.println("error");
+            FileOperation.showError();
         }
     }
     
@@ -546,6 +467,7 @@ public class Screen1Controller {
                 // file was successfully copied
             } catch (IOException e) {
                 e.printStackTrace();
+                FileOperation.showError();
 
             }
             stageOfTextArea = (Stage)txtArea.getScene().getWindow();
@@ -556,7 +478,7 @@ public class Screen1Controller {
             // file could not be copied
         } catch (IOException ex) {
                 ex.printStackTrace();
-
+                FileOperation.showError();
         }
         }
 
@@ -592,6 +514,7 @@ public class Screen1Controller {
                 sc.changeStage();
             } catch (IOException ex) {
                 Logger.getLogger(Screen1Controller.class.getName()).log(Level.SEVERE, null, ex);
+                FileOperation.showError();
             }
         }
 
@@ -605,7 +528,8 @@ public class Screen1Controller {
     @FXML
     private void onClickContextShare(ActionEvent event){
         TreeItem<String> item = myTreeView.getSelectionModel().getSelectedItem();
-        String path = "/tmp/files/" + getPath(item);
+        //String path = "/tmp/files/" + getPath(item);
+        String path = fixedPath + getPath(item);
         String filename = item.getValue();
         //File file = new File(path);
         if(!(isDir(path))){
@@ -624,6 +548,7 @@ public class Screen1Controller {
                 stageOfTextArea = (Stage)txtArea.getScene().getWindow();
             } catch (IOException ex) {
                 System.out.println("error");
+                FileOperation.showError();
             }
         }
         
@@ -636,7 +561,8 @@ public class Screen1Controller {
             String[] files = dir.list();
             for(String s : files){
                 String tempPath = "";
-                tempPath = path + "/" + s;
+                //tempPath = path + "/" + s;
+                tempPath = path + "\\" + s;
                 deleteDirectory(tempPath);
             }
             fo.deleteFile(path);
@@ -644,7 +570,7 @@ public class Screen1Controller {
             
             fo.deleteFile(path);
         }
-        return;
+        
     }
     
     /** 
@@ -654,10 +580,11 @@ public class Screen1Controller {
     @FXML
     private void onClickContextDelete(ActionEvent event){
         TreeItem<String> item = myTreeView.getSelectionModel().getSelectedItem();
-        String path = "/tmp/files/" + getPath(item);
-        //deleteDirectory(path);
-        FileOperation fo = new FileOperation();
-        fo.deleteFile(path);
+        //String path = "/tmp/files/" + getPath(item);
+        String path = fixedPath + getPath(item);
+        deleteDirectory(path);
+        //FileOperation fo = new FileOperation();
+        //fo.deleteFile(path);
         try {
             stageOfTextArea = (Stage)txtArea.getScene().getWindow();
             FXMLLoader fxml = new FXMLLoader(getClass().getResource("screen1.fxml"));
@@ -666,6 +593,7 @@ public class Screen1Controller {
             sc.changeStage();      
         }catch (IOException ex) {
             System.out.println("errror");
+            FileOperation.showError();
         }          
     }
     
@@ -676,25 +604,29 @@ public class Screen1Controller {
     @FXML
     private void onClickContextRename(ActionEvent event){
         TreeItem<String> item = myTreeView.getSelectionModel().getSelectedItem();
-        String path = "/home/ntu-user/NetBeansProjects/files/" + getPath(item);
+        TreeItem<String> parent = myTreeView.getSelectionModel().getSelectedItem().getParent();
+        String renamePath = fixedPath + getPath(parent);
+        String path = fixedPath + getPath(item);
         String filename = item.getValue();
         File file = new File(path);
         if(file.isFile()){
             Stage stage = new Stage();
-            FXMLLoader fxml = new FXMLLoader(getClass().getResource("renamefile.fxml"));
+            FXMLLoader fxml = new FXMLLoader(getClass().getResource("foldername2.fxml"));
             Parent root;
             try {
                 root = fxml.load();
                 Scene scene = new Scene(root);
-                ShareFileController sc = fxml.getController();
-                sc.setFileToBeShared(filename);
+                FolderName2Controller sc = fxml.getController();
+                //sc.setFileToBeShared(filename);
                 sc.setPath(path);
+                sc.setRenamePath(renamePath);
                 stage.setScene(scene);
-                stage.setTitle("Username");
+                stage.setTitle("Rename");
                 stage.show();
                 stageOfTextArea = (Stage)txtArea.getScene().getWindow();
             } catch (IOException ex) {
                 System.out.println("error");
+                FileOperation.showError();
             }
         }}
     
@@ -705,18 +637,33 @@ public class Screen1Controller {
      */
      @FXML
     private void deleteAccount(ActionEvent event) {
-        try {
-            String Username = LogInController.getTxtUsername();
-            Account.deleteExistingUser(Username);
-            FXMLLoader fxml = new FXMLLoader(getClass().getResource("signUp.fxml"));
-            Stage stage = new Stage();
-            Parent root = fxml.load();
-            Scene scene = new Scene(root);
-            stage.show();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete?");
+        alert.showAndWait();
+        if(alert.getResult() == ButtonType.OK){
             stageOfTextArea = (Stage)txtArea.getScene().getWindow();
-        } catch (IOException ex) {
-            Logger.getLogger(Screen1Controller.class.getName()).log(Level.SEVERE, null, ex);
+            String Username = LogInController.getTxtUsername();
+            try {
+                FXMLLoader fxml = new FXMLLoader(getClass().getResource("logIn.fxml"));
+                Parent root = fxml.load();
+                Scene scene = new Scene(root,400,400);
+                stageOfTextArea.setScene(scene);
+                stageOfTextArea.show();
+                //delete from the database
+                Account.deleteExistingUser(Username);
+                deleteDirectory(fixedPath + Username);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                FileOperation.showError();
+            }
         }
+//            String Username = LogInController.getTxtUsername();
+//            Account.deleteExistingUser(Username);
+//            FXMLLoader fxml = new FXMLLoader(getClass().getResource("signUp.fxml"));
+//            Stage stage = new Stage();
+//            Parent root = fxml.load();
+//            Scene scene = new Scene(root);
+//            stage.show();
+//            stageOfTextArea = (Stage)txtArea.getScene().getWindow();
 
     }
     

@@ -15,7 +15,6 @@
       <Label layoutX="62.0" layoutY="188.0" prefHeight="25.0" prefWidth="89.0" text="Password" />
       <Button fx:id="btnLogIn" layoutX="160.0" layoutY="253.0" mnemonicParsing="false" onAction="#onClickLogIn" prefHeight="25.0" prefWidth="69.0" text="Log in" />
       <Button fx:id="btnSignUp" layoutX="160.0" layoutY="288.0" mnemonicParsing="false" onAction="#onClickSignUp" text="Sign Up" />
-      <Label text="Label" />
       <Label fx:id="lblIncorrect" layoutX="94.0" layoutY="228.0" prefHeight="15.0" prefWidth="244.0" textFill="#f80101" />
       <PasswordField fx:id="txtPassword" layoutX="177.0" layoutY="188.0" onKeyReleased="#onKeyReleased" />
    </children>

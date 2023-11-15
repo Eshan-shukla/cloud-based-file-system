@@ -4,11 +4,6 @@
  */
 package org.openjfx.app;
 
-import com.jcraft.jsch.ChannelSftp;
-import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.Session;
-import com.jcraft.jsch.SftpException;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -44,13 +39,14 @@ import javax.crypto.spec.PBEKeySpec;
  */
 public class Account {
     
-    private static final String FILENAME = "jdbc:sqlite:/home/ntu-user/NetBeansProjects/Course-Work/app/Account.db";
+    private static final String FILENAME = "jdbc:sqlite:C:\\Users\\eshan\\OneDrive\\Desktop\\cloud-app\\cloud-based-file-system\\app\\Account.db";
     private static final String TABLENAME = "Users";
     private int iterations = 10000;
     private int keylength = 256;
     private Random random = new SecureRandom();
     private String characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     private String saltValue;
+    private static final String fixedPath = "C:\\Users\\eshan\\OneDrive\\Desktop\\files\\";
     
     Account(){
         try {
@@ -68,6 +64,7 @@ public class Account {
             }
         } catch (IOException e) {
             e.printStackTrace();
+            FileOperation.showError();
         }
     }
     
@@ -77,43 +74,13 @@ public class Account {
      * @return true if username exists, otherwise false
      */
     public static boolean checkUser(String username){
-        String path = "/tmp/files/";
-        Vector<String> dirnames = new Vector<String>();
-        try{
-            JSch jsch = new JSch();
-            Session session = jsch.getSession("root","172.20.0.3",22);
-            session.setPassword("soft40051_pass");
-            session.setConfig("StrictHostKeyChecking", "no");
-            session.connect();
-            ChannelSftp channel = (ChannelSftp)session.openChannel("sftp");
-            channel.connect();
-            Vector<ChannelSftp.LsEntry> files = channel.ls(path);
-            channel.disconnect();
-            session.disconnect();
-            for(ChannelSftp.LsEntry s : files){
-                String name = s.getFilename();
-                if(!((name.equals(".")) || name.equals(".."))){
-                    if(username.equals(name)){
-                        return true;
-                    }
-                    
-                }
-                
-            }
-        }catch(JSchException ex){
-            System.out.println(ex);
-            
-        } catch (SftpException ex) {
-            System.out.println(ex);
-           
+        //String path = "/tmp/files/";
+        String path = fixedPath + username;
+        File dir = new File(path);
+        if(dir.isDirectory()){
+            return true;
         }
         return false;
-//        File dir = new File(path);
-//        if(dir.exists()){
-//            return true;
-//        }else{
-//            return false;
-//        }
     }
     
     /**
@@ -128,6 +95,7 @@ public class Account {
             password = generateSecurePassword(password);
         } catch (InvalidKeySpecException ex) {
             System.out.println("error");
+            FileOperation.showError();
         }
         try{
             connection = DriverManager.getConnection(FILENAME);
@@ -138,6 +106,7 @@ public class Account {
             
         } catch(SQLException ex){
             System.out.println("error");
+            FileOperation.showError();
         } finally{
             try{
                 if(connection!=null){
@@ -148,6 +117,7 @@ public class Account {
                 }
             }catch(SQLException ex){
                 System.out.println("error!!!");
+                FileOperation.showError();
             }
         }  
     }
@@ -169,6 +139,7 @@ public class Account {
             return skf.generateSecret(spec).getEncoded();
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             throw new AssertionError("Error while hashing a password: " + e.getMessage(), e);
+            
         } finally {
             spec.clearPassword();
         }
@@ -195,6 +166,7 @@ public class Account {
             password = generateSecurePassword(password);
         } catch (InvalidKeySpecException ex) {
             System.out.println("error");
+            FileOperation.showError();
         }
         try{
             connection = DriverManager.getConnection(FILENAME);
@@ -212,6 +184,7 @@ public class Account {
             }            
         } catch(SQLException ex){
             System.out.println("error");
+            FileOperation.showError();
             
         } finally{
             try{
@@ -224,6 +197,7 @@ public class Account {
                 
             } catch(SQLException ex){
                 System.out.println("error");
+                FileOperation.showError();
             }
         }
         return result;
@@ -244,12 +218,18 @@ public class Account {
             String sql = "DELETE FROM Users WHERE Username = " + "'"+ Username + "'";
             stmt.executeUpdate(sql);
 
-            String path = "/home/ntu-user/NetBeansProjects/files/" + Username;
+            //String path = "/home/ntu-user/NetBeansProjects/files/" + Username;
+            String path = fixedPath + Username;
             File file =new File(path);
-            file.delete();
+            if(file.delete()){
+                
+            }else{
+                System.out.println("error");
+            }
 
         } catch(SQLException ex){
             System.out.println("error");
+            FileOperation.showError();
         } finally{
             try{
                 if(connection!=null){
@@ -260,6 +240,7 @@ public class Account {
                 }
             }catch(SQLException ex){
                 System.out.println("error!!!");
+                FileOperation.showError();
             }
         }
     }

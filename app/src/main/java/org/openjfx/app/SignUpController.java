@@ -36,6 +36,7 @@ public class SignUpController {
     private Label lblWrongPassword;
     @FXML
     private Label lblIncorrectPassword;
+    private String fixedPath = "C:\\Users\\eshan\\OneDrive\\Desktop\\files\\";
 
     /**
      * Initializes the controller class.
@@ -49,7 +50,6 @@ public class SignUpController {
     @FXML
     private void onClickSignUp(ActionEvent event) {
         String username = txtUsername.getText();
-        String path = "/home/ntu-user/NetBeansProjects/files/";
         String dirname = username;
         String password = txtConfirmPassword.getText();
         String cpassword = txtPassword.getText();
@@ -62,8 +62,8 @@ public class SignUpController {
                 Account a = new Account();
                 a.createNewUser(username, password);
                 FileOperation fo = new FileOperation();
-                //if(fo.createDirectory(path, filename)){
-                if(fo.createDirectory("/tmp/files",dirname)){
+                if(fo.createDirectory(fixedPath, dirname)){
+                //if(fo.createDirectory("/tmp/files",dirname)){
                     
                 }else{
                     lblWrongPassword.setText("Username already exists.");

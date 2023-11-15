@@ -56,7 +56,7 @@ public class FileNameController {
                 sc.changeStage();
             }catch(IOException ex){
                 System.out.println("error");
-            
+                FileOperation.showError();
             }
         }       
     }

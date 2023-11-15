@@ -39,6 +39,7 @@ public class ShareFileController {
     private RadioButton readWrite, readOnly;   
     private String fileToBeShared;
     private String path;
+    private String fixedPath = "C:\\Users\\eshan\\OneDrive\\Desktop\\files\\";
     
     public void setFileToBeShared(String filename){
         this.fileToBeShared = filename;
@@ -49,51 +50,33 @@ public class ShareFileController {
     }
     
     @FXML
-    private void onClickShare(ActionEvent event){
-        String per = "";
-        if(readWrite.isSelected()){
-            per = "rw";
-        } else if(readOnly.isSelected()){
-            per = "ro";
-        }
+    private void onClickShare(ActionEvent event) throws IOException{
         String filename = this.fileToBeShared;
         String username = txtUsername.getText();
-        String p = "";
-        FileOperation fo = new FileOperation();
-        String remotepath = this.path;
-        String localpath = "/home/ntu-user/NetBeansProjects/files/" + filename;
-        String despath = "/tmp/files/" + txtUsername.getText() + "/" + filename;
+        String sourcePath = this.path;
+        String desPath = fixedPath + username;
         boolean check = Account.checkUser(txtUsername.getText());
         if(check){
-            try{
-                JSch jsch = new JSch();
-                //jsch.addIdentity("/home/eshan/NetBeansProjects/network/SFTP/src/main/java/org/openjfx/sftp/pvk");
-                //jsch.setKnownHosts("/home/eshan/.ssh/known_hosts");
-                Session session = jsch.getSession("root","172.20.0.3",22);
-                session.setPassword("soft40051_pass");
-                session.setConfig("StrictHostKeyChecking", "no");
-                session.connect();
-                ChannelSftp channel = (ChannelSftp)session.openChannel("sftp");
-                channel.connect();
-                channel.get(remotepath, localpath);
-                if(per.equals("ro")){
-                    File file = new File(localpath);
-                    file.setReadOnly();
+              FileOperation fo = new FileOperation();
+              //create file in desPath
+              fo.createFile(desPath, filename);
+              
+              //extract content from sourcePath
+              File source = new File(sourcePath);
+              String content = "";
+              if(source.exists()){
+                FileReader fr = new FileReader(source);
+                BufferedReader br = new BufferedReader(fr);
+                String line = null;
+                while((line = br.readLine()) != null){
+                    content = content + line + "\n";
                 }
-                channel.put(localpath, despath);
-                channel.disconnect();
-                session.disconnect();
-            }catch(JSchException ex){
-                System.out.println(ex);
-
-            } catch (SftpException ex) {
-                System.out.println(ex);
-
-            }
-            File file = new File(localpath);
-            if(file.exists()){
-                if(file.delete()){}
-            }
+                br.close();
+                fr.close();
+              }
+              
+              //write contnt into desPath
+              fo.writeContent(content, desPath + "\\" + filename);
 
             Stage s = (Stage)((Node)event.getSource()).getScene().getWindow();
             s.close();

@@ -23,26 +23,31 @@ public class FolderName2Controller {
     @FXML
     private TextField txtName;
     private String path;
+    private String renamePath;
     
     public void setPath(String p){
         this.path = p;
     }
     
+    public void setRenamePath(String p){
+        this.renamePath = p;
+    }
+    
     @FXML
     private void onClickCreate(ActionEvent event) {
-        String fileName = txtName.getText();
-        String fullPath = this.path + "/" + fileName;
+        String fileName = this.renamePath + "\\" + txtName.getText();
+        //String fullPath = this.path + "/" + fileName;
         try{
-            File file = new File(fullPath);
-            if(file.createNewFile()){
-                
+            File file = new File(this.path);
+            File desFile = new File(fileName);
+            if(file.renameTo(desFile)){
             }
         }catch(NullPointerException ex){
             System.out.println("error");
+            FileOperation.showError();
         }catch(SecurityException ex){
             System.out.println("error");
-        }catch(IOException ex){
-            System.out.println("error");
+            FileOperation.showError();
         }
         Stage s = (Stage)((Node)event.getSource()).getScene().getWindow();
         s.close();
@@ -54,7 +59,7 @@ public class FolderName2Controller {
             sc.changeStage();
         }catch(IOException ex){
             System.out.println("error");
-            
+            FileOperation.showError();
         }
     }
     
